@@ -21,8 +21,7 @@ public class Solution {
         if(idx==h.length-1) {
             return 0;
          }
-        if(idx >= h.length) return Integer.MAX_VALUE; //no possible path,
-   //so return extremely large cost which will never be considered.
+        if(idx >= h.length) return Integer.MAX_VALUE; //no possible path, so return extremely large cost which will never be considered.
        
         int step1 = util(idx+1 , h) + Math.abs(h[idx] - h[idx+1]);        
         int step2 = util(idx+2 , h);
@@ -31,3 +30,40 @@ public class Solution {
         return Math.min(step1,step2);
     }
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#2. Memoization | TC = O(N) | SC = O(2N)- stack space and dp array
+
+import java.util.*;
+public class Solution {
+    public static int frogJump(int n, int heights[]) {
+        int dp[] = new int[heights.length + 1];
+        Arrays.fill(dp , -1);
+        return util( 0  ,heights, dp);
+     }
+    private static int util(int idx , int[] h, int[] dp){
+        //base case
+        if(dp[idx] !=-1) return dp[idx];
+        //when reach n-1 index, we got our path.
+        if(idx==h.length-1) {
+            dp[idx] = 0;
+            return 0;
+         }
+        if(idx >= h.length) return dp[idx] = Integer.MAX_VALUE; //no possible path, so return extremely large cost which will never be considered.
+       
+        int step1 = util(idx+1 , h, dp) + Math.abs(h[idx] - h[idx+1]);        
+        int step2 = util(idx+2 , h , dp);
+        if(idx+2 < h.length) step2+= Math.abs(h[idx] - h[idx+2]);
+        
+        return dp[idx] = Math.min(step1,step2);
+    }
+}
+
+
+
+
+
+
+
+
+
