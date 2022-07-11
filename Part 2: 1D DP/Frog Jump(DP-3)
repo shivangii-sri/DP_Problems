@@ -59,7 +59,29 @@ public class Solution {
     }
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Tabulation | TC=O(N) | SC=O(N) -> dp[] and no stack space |
 
+import java.util.*;
+public class Solution {
+    public static int frogJump(int n, int heights[]) {
+     
+        int dp[] = new int[n + 1];
+        
+        //1. initialize
+        dp[n] = Integer.MAX_VALUE;
+        dp[n-1] = 0;
+        
+        // NOTE : In Tabulation, dp[] is always filled up in OPPosite direction to that of Memoization. In memo, i took bottom up, so now in tabulation, take top-down.
+        for(int i=n-2; i >= 0 ; i--){
+            int step1 = dp[i+1] + Math.abs(heights[i] - heights[i+1]);
+            int step2 = dp[i+2];
+            if(i+2 < n) step2 += Math.abs(heights[i] - heights[i+2]);
+            dp[i] = Math.min(step1, step2);
+        }
+        return dp[0];
+     }
+}
 
 
 
