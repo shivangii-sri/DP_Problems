@@ -1,0 +1,74 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//3. Tabuation  -> TC = O(N)  ,  SC = O(N) -  dp array
+
+class Solution {    
+    public int minCostClimbingStairs(int[] cost) {       
+        
+        int n=cost.length;
+        int dp[] = new int[n + 1];
+        
+        if(n==2) return Math.min(cost[0]  ,cost[1]);
+        //1. base case into initialization
+        dp[0] = 0;
+        dp[1] = 0;
+        dp[2] = Math.min(cost[0] , cost[1]);
+        
+       //build dp[] bottom up
+        for(int i=3 ; i<=n  ;i++){
+        
+            dp[i] = Math.min(dp[i-1] + cost[i-1] , dp[i-2] + cost[i-2]);
+        }       
+        return dp[n];
+    } 
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//2 .Memoization - TC = O(N)  ,  SC = O(2N) - stack space + dp array
+
+class Solution {    
+    public int minCostClimbingStairs(int[] cost) {       
+        
+        int n=cost.length;
+        int dp[] = new int[n + 1];
+        Arrays.fill(dp , -1);
+        
+        solUtil(cost,n , dp);
+        return dp[n];
+    }    
+   public int solUtil(int[] cost,int n , int[] dp){        
+        if(dp[n] != -1) return dp[n];
+        if(n==2) {
+            return dp[n] = Math.min(cost[1] , cost[0]);
+        }
+        if(n < 2){
+            dp[n] = 0;
+            return 0;
+        }                   
+        int step1 = cost[n-1] + solUtil(cost, n-1 , dp); //20 + solUtil(cost , 2)
+        int step2 = cost[n-2] + solUtil(cost, n-2, dp); //15 + solUtil(cost , 1)
+        
+        return dp[n] = Math.min(step1, step2);      
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//1. Recursion 
+//TC = O(2^N)  ,SC = O(N) - stack space
+
+// Say given cost[]= {10 , 15, 20}
+class Solution {    
+    public int minCostClimbingStairs(int[] cost) {       
+        int n=cost.length;
+        return solUtil(cost,n);
+    }   
+   public int solUtil(int[] cost,int n){        
+        if(n==2) return Math.min(cost[1] , cost[0]);
+        if(n < 2) return 0;
+                  
+        int step1 = cost[n-1] + solUtil(cost, n-1); //20 + solUtil(cost , 2)
+        int step2 = cost[n-2] + solUtil(cost, n-2); //15 + solUtil(cost , 1)
+        
+        return Math.min(step1, step2);      
+    }
+}
