@@ -1,0 +1,165 @@
+This problem is exactly Fibonacci Series. You can solve this problem too with same approaches : Fibonacci Number
+
+List of solutions to provide in Interview :
+
+    Naive sol - Recursion based
+    DP - Memoization
+    DP - Tabulation
+    DP - Space Optimization
+    
+    
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+
+Solution 1 : Recursion (Will give TLE)
+
+So, in interview, first solution that you need to provide is Naive one. In this case, it is Recursion based. 
+Though Recursion is one of the solution but it will give TLE .
+
+class Solution {    
+    public int climbStairs(int n) {
+        //base case
+        if(n == 0 || n==1 ) return 1;
+        
+        return climbStairs(n-1) + climbStairs(n-2);        
+    }
+}
+
+Time Complexity : O(2^n)
+Space Complexity : O(n) (Space for recursive call stack )
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Solution 2: DP-Memoization (Top Down Approach)
+
+class Solution {
+    public int climbStairs(int n) {
+        int[] dp = new int[n+1];
+        Arrays.fill(dp , -1);
+        
+        memo(n , dp);
+        return dp[n];
+    }
+    private int memo(int n , int[] dp){
+        //base case
+        if( n==0 || n== 1){
+            dp[n] = 1;
+            return 1;//or return dp[n];
+        }
+        if(dp[n] != -1) return dp[n];
+        
+        return dp[n] = memo(n-1, dp) + memo(n-2 , dp);
+    }
+}
+
+
+---------------SUD Soln--------------
+class Solution {
+    int[] dp=new int[0];
+    
+    public int climbStairs(int n) {
+        dp=new int[n+1];
+        Arrays.fill(dp,-1);
+        return solUtil(n);
+    }
+    
+    public int solUtil(int n){
+        
+        if(dp[n]!=-1){
+            return dp[n];
+        }
+        
+        if(n==1 || n==2){
+            dp[n]=n;
+            return dp[n];
+        }
+        
+        int fib1=solUtil(n-1);
+        int fib2=solUtil(n-2);
+        
+        dp[n]=fib1+fib2;
+        
+        return dp[n];
+    }
+}
+
+Time Complexity : O(n)
+Space Complexity : O(2N) - stack space + dp array
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Solution 3 : DP - Tabulation (Bottom up Approach)
+
+class Solution {    
+    public int climbStairs(int n) {
+        int[] dp = new int[n+1];
+        Arrays.fill(dp , -1);
+        
+        //1. convert base case into initiaize
+        dp[0] = 1;
+        dp[1] = 1;
+        
+        //2. Use recursion relation to fill dp[] array
+        for(int i=2 ; i<=n ; i++){
+            dp[i] = dp[i-1]+dp[i-2];
+        }
+        return dp[n];
+    }
+}
+
+----------SUD SOln------
+class Solution {
+    public int climbStairs(int n) {        
+        if(n==1) return 1;       
+        int[] dp=new int[n+1];
+        dp[1]=1;
+        dp[2]=2;      
+        for(int i=3;i<=n;i++){
+            dp[i]=dp[i-1]+dp[i-2];
+        }        
+        return dp[n];
+    } 
+}
+
+Time complexity : O(n)
+Space Complexity: O(n) - DP array
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Solution 4: (Better space Complexity) DP - Tabulation (Bottom up Approach)
+In this solution, we will eliminate the use of dp array, instead we will use two variables, prev1 and prev2.
+
+class Solution {
+    public int climbStairs(int n) {       
+        //initiaize
+        int prev1 = 1; //when at stair 1-there is only one way
+        int prev2 = 1  // when at stair 0, return 1      
+        for(int i=2 ; i<=n ; i++){
+            int cur = prev1 + prev2;
+            prev2 = prev1;
+            prev1 = cur;
+        }
+        return prev1;
+    }
+}
+
+----------SUD Soln------------
+class Solution {  
+    public int climbStairs(int n) {        
+        if(n==1) return 1;
+
+        int prev2=1;
+        int prev1=2;
+        
+        for(int i=3;i<=n;i++){
+            int curr=prev2+prev1;
+            prev2=prev1;
+            prev1=curr;
+            
+        }        
+        return prev1;
+    }   
+}
+
+Time Complexity : O(n)
+Space Complexity : O(1)
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
