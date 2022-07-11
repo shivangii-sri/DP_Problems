@@ -1,2 +1,14 @@
 # DP_Problems
 Documenting DP Problems - Recursion - Memoization - Tabulation - Space Optimization
+
+Striver DP Series : Dynamic Programming Problems !
+Link to takeUForward DP Sheet : https://takeuforward.org/dynamic-programming/striver-dp-series-dynamic-programming-problems/
+
+Dynamic Programming can be described as storing answers to various sub-problems to be used later whenever required to solve the main problem.
+
+The two common dynamic programming approaches are:
+1. Memoization: Known as the “top-down” dynamic programming, usually the problem is solved in the direction of the main problem to the base cases.
+
+2. Tabulation: Known as the “bottom-up ” dynamic programming, usually the problem is solved in the direction of solving the base cases to the main problem.
+
+3. Space Optimization: Try to modify tabulation by using variables, instead of using dp array to amke it O(1) space solution. Most Efficient approach.
