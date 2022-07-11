@@ -1,0 +1,33 @@
+Problem LinkCode studio : https://www.codingninjas.com/codestudio/problems/frog-jump_3621012?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#1 Recursion | TC =O(2^N)  ,  SC = O(N) - recursive stack space
+Approach :
+1. We explore taking all possible paths, starting with index 0.
+2. At every index, we can take either 1 or 2 steps.
+3. for i=0-> we call f(1) and f(2). f(1) and f(2) returns us the cost of reaching end from 1 and 2 index respectively. 
+   Thus we also add cost of recahing 0->1 and 0->2 on the naswers returned. NOTE: we take care of boundaries of i+2 index. it might go beyond range.
+4. We return min of f(1) and f(2) calls.   
+
+
+public class Solution {
+    public static int frogJump(int n, int heights[]) {
+        // Write your code here..
+        return util( 0  ,heights);       
+    }
+    private static int util(int idx , int[] h){
+        //base case
+        //when reach n-1 index, we got our path.
+        if(idx==h.length-1) {
+            return 0;
+         }
+        if(idx >= h.length) return Integer.MAX_VALUE; //no possible path,
+   //so return extremely large cost which will never be considered.
+       
+        int step1 = util(idx+1 , h) + Math.abs(h[idx] - h[idx+1]);        
+        int step2 = util(idx+2 , h);
+        if(idx+2 < h.length) step2+= Math.abs(h[idx] - h[idx+2]);
+        
+        return Math.min(step1,step2);
+    }
+}
