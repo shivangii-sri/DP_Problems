@@ -1,3 +1,15 @@
+Note : 
+1. This q is similar to Frog jump, in striver's sheet. as Frog jump is not on Leet, we decided to do this q. 
+2. The whole documentation is on leet discuss, whose link is : 
+https://leetcode.com/problems/min-cost-climbing-stairs/discuss/2121504/Java-4-Sol-or-Interview-Approach-or-Recusrion-DP-Memoization-Tabulation
+3. Basically, the above documentation hass 8 codes. Two diff sets of Recursion,Memo,Tabu and Space Optimized.
+4. Here, in git I am pasting the lastest one. 
+**********************************************************************************************************************************************************
+Logic :
+    If n goes below 2 , we simply return 0, as it will go below 2 only after adding values at cost array index 0 or 1. 
+    So, when we add Cost[0] or cost[1], calling paralley solUtil(cost,0) or solUtil(cost, 1), will give wrong result. So, we return 0 for that case.
+***********************************************************************************************************************************************************
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //1. Space Optimization  ->  TC = O(N)  ,  SC = O(1)
 
