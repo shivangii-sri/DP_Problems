@@ -12,3 +12,8 @@ The two common dynamic programming approaches are:
 2. Tabulation: Known as the “bottom-up ” dynamic programming, usually the problem is solved in the direction of solving the base cases to the main problem.
 
 3. Space Optimization: Try to modify tabulation by using variables, instead of using dp array to amke it O(1) space solution. Most Efficient approach.
+
+==> How to convert a Recursive SOlution into DP solution :-
+Step 1 - Initialize DP array with size n+1 and all values set to -1, and make sure to carry it in parameters.
+Step 2 - Storing the answers in dp[n] before returning for the subproblems.
+Step 3 - In base case, check if answer is already computed in dp[n] i.e if(dp[n] != -1), return return dp[n] 
