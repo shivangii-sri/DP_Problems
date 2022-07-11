@@ -45,3 +45,32 @@ public class Solution {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#2. Memoization | TC = O(N) | SC = O(2N)- stack space and dp array
+
+public class Solution {
+   public static int maximumNonAdjacentSum(ArrayList<Integer> nums) {
+        int n = nums.size();       
+        int dp[] = new int[n+1];
+        Arrays.fill(dp , -1);
+        
+        return helper(nums, n-1 , dp);
+   }
+    private static int helper(ArrayList<Integer> nums, int n , int[] dp){
+        //base case
+        if(n==0 || n==1) return nums.get(n);
+        if(dp[n] != -1) return dp[n];
+        
+       // maxi[0] = 0;
+        int prev = helper(nums , n-1, dp); ////////////////////////////
+            int maxi = 0;
+            if(n-2 >= 0){
+                for(int i=n-2 ; i>=0 ; i--){
+                    int temp = helper(nums, i , dp);
+                    maxi = Math.max(maxi , temp);
+                }
+            }
+        return dp[n] = Math.max(prev , nums.get(n) + maxi); /////////////////////
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
