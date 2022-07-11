@@ -1,5 +1,11 @@
 Problem LinkCode studio : https://www.codingninjas.com/codestudio/problems/frog-jump_3621012?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos
 
+******************************************************************************************************************************************************************
+ RECURSION TREE IMAGE BELOW :
+![image](https://user-images.githubusercontent.com/66727290/178331204-ba3953ce-7204-4a5f-97f7-a3d4c216235c.png)
+
+******************************************************************************************************************************************************************
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #1 Recursion | TC =O(2^N)  ,  SC = O(N) - recursive stack space
 Approach :
@@ -109,9 +115,4 @@ public class Solution {
         return prevLen;
      }
 }
-
-
-
-
-
 
