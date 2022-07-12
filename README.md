@@ -13,12 +13,12 @@ The two common dynamic programming approaches are:
 
 3. Space Optimization: Try to modify tabulation by using variables, instead of using dp array to amke it O(1) space solution. Most Efficient approach.
 
-==> How to convert a Recursive SOlution into DP solution :-
+==> Convert Recursion into DP solution :-
 1. step - Initialize DP array with size n+1 and all values set to -1, and make sure to carry it in parameters.
 2. step - Storing the answers in dp[n] before returning for the subproblems.
-3. step - In base case, check if answer is already computed in dp[n] i.e if(dp[n] != -1), return return dp[n] 
+3. step - In base case, check if answer is already computed in dp[n] i.e if(dp[n] != -1), return dp[n] 
 
-==> How to convert a Memoization Solution into Tabulation :-
+==> Convert Memoization into Tabulation :-
 1. step - Initialize DP array with size n+1
 2. step - Initilialize the base cases of memo into dp[]
 3. step - Write a for loop for building array.
