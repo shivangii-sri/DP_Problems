@@ -1,0 +1,50 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+
+Solution 1 : Recursion (Will give TLE) | TC=O(2^N) | SC = O(N) (Space for recursive call stack )
+
+Approach:
+1. To find the max amount to rob, Start from index n-1. Note: last index is adjacent to 0 index, circular way.
+2. At every index, we can either pick it or not pick it in our subsequence.
+    a. if we pick, we add arr[n] and call for f(n-2) , since we have to avoid adjacent.
+    b. if we do not pick, we add 0 and call for f(n-1)
+    c. we have to take care about not picking 0th index simultaneously with last index. i have taken care of it using a boolean variable.
+3. 
+
+eg. a[] = [1, 5, 1, 2, 6] , n=5
+
+  (.. + 6) <- f(4) -> (0 + ..)
+         
+         f(2)     f(3)
+      
+    f(0)   f(1)    .........    
+
+---------------My Code------------
+public class Solution {	
+    public static long houseRobber(int[] valueInHouse) {
+          int n = valueInHouse.length;
+          boolean last = false; 
+          return helper(n-1 , valueInHouse , last);        
+    }
+    
+    private static long helper(int idx , int[] arr , boolean last){
+        if(idx == 0){
+            if(last == true) return 0; //cant take bcz adjacent to last
+            else return arr[idx];
+        }
+        if(idx < 0 ) return 0; //not to consider
+        
+        long pick = 0;
+        if(idx == arr.length-1) {
+            last = true;
+            pick = arr[idx] + helper(idx - 2 , arr, last);
+            last = false;
+        }
+        else{
+            pick = arr[idx] + helper(idx - 2 , arr, last);   
+        }
+        long notpick = 0 + helper(idx-1 , arr, last);
+        return Math.max(pick , notpick);
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
