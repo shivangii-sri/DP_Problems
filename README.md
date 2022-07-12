@@ -13,6 +13,12 @@ The two common dynamic programming approaches are:
 
 3. Space Optimization: Try to modify tabulation by using variables, instead of using dp array to amke it O(1) space solution. Most Efficient approach.
 
+==> Recursion 3 steps :-
+1. step - Express every problem in terms of index
+2. step - do all possible stuff on that index
+3. step - find max / min / sum / count as per the given question
+
+
 ==> Convert Recursion into DP solution :-
 1. step - Initialize DP array with size n+1 and all values set to -1, and make sure to carry it in parameters.
 2. step - Storing the answers in dp[n] before returning for the subproblems.
