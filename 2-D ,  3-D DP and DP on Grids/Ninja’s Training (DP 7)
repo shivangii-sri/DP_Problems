@@ -1,0 +1,47 @@
+Question :  A Ninja has an ‘N’ Day training schedule. He has to perform one of these three activities (Running, Fighting Practice, or Learning New Moves) each day. 
+There are merit points associated with performing an activity each day. The same activity can’t be performed on two consecutive days. 
+We need to find the maximum merit points the ninja can attain in N Days.
+We are given a 2D Array POINTS of size ‘N*3’ which tells us the merit point of specific activity on that particular day. 
+Our task is to calculate the maximum number of merit points that the ninja can earn.
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#1 Recursion | TC = O(2^N)  ,  SC = O(N * N-2) - recursive stack space
+
+***** Striver Code ********
+Approach: 
+1. Start with last day (n-1th day) of points array.
+2. Initially we pass task=3, meaning initially no task has been done. 
+3. At each day, we evaluate max merit points by finding all possible ways
+    a. We call recursion for every task not matching with current task no, bcz same task cannot be repeated on consecutive days.
+    b. We add current merit points of current arr[day][task]
+    c. While calling the function, we pass the prev day as day-1, with task not matching in i=0 to 2.
+    d. We store maxi of all the func calls. and return maxi.
+4. BASE CASE- whenever we reach day 0, with task no. say x, it means task x has been performed previously. Thus we return max merit b/w other two tasks in day 0.
+
+public class Solution {
+    public static int ninjaTraining(int n, int points[][]) {
+        // Write your code here..
+        int task = n;
+        return helper(n-1 , task , points);
+    }
+    private static int helper(int day, int task, int arr[][]){
+        //base case
+        if(day == 0) {
+            int maxi =0;
+            for(int i=0; i<=2; i++){
+                if(i != task){
+                    maxi = Math.max(maxi , arr[0][i]);
+                }
+            }    
+            return maxi;
+        }       
+        int ans = 0;
+        for(int i=0; i<=2 ; i++){
+            if(i == task) continue;
+            int temp = arr[day][i] + helper(day-1, i, arr);
+            ans = Math.max(ans, temp);                       
+        }
+        return ans;
+    }
+}
