@@ -27,4 +27,5 @@ The two common dynamic programming approaches are:
 ==> Convert Memoization into Tabulation :-
 1. step - Initialize DP array with size n+1
 2. step - Initilialize the base cases of memo into dp[]
-3. step - Write a for loop for building array.
+3. step - Write a for loop for building array for all states (like 2 states then may be two nested for loops eg 2D DP)
+4. step - Copy the recurrence relation logic
