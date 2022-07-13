@@ -1,0 +1,46 @@
+Leetcode Link : https://leetcode.com/problems/unique-paths/
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#1 Recursion | TC = O(2^ (MxN)) | SC= O(length of path) = O(m-1 + n-1) -> stack space will go length of path deeper 
+
+
+public class Solution {
+	public static int uniquePaths(int m, int n) {
+        //Write your code here
+        return countPaths(0, 0 , m, n);
+	}
+  private static int countPaths(int i, int j, int m, int n){
+        //base case
+        if(i==m-1 && j==n-1) return 1; //when reaching destination
+        if(i >= m || j >= n) return 0; //when going out of bound
+         
+        int right = countPaths(i , j+1 , m, n);
+        int left = countPaths(i+1 , j , m, n);
+        return right + left;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#2. Memoization | TC=O(2^ M x N) | SC= O(length of path) = O(m-1 + n-1) -> stack space will go length of path deeper 
+
+
+public class Solution {
+	public static int uniquePaths(int m, int n) {
+        int dp[][] = new int[m][n];
+        for(int[] x : dp){
+            Arrays.fill(x, -1);
+        }
+        return helper(0, 0 , m, n , dp);
+	}
+    private static int helper(int i, int j, int m, int n , int[][] dp){
+        if(i==m-1 && j==n-1) return 1; //when reaching destination
+        if(i >= m || j>= n) return 0; //when going out of bound
+        if(dp[i][j] != -1) return dp[i][j];
+        
+        int right = helper(i , j+1 , m, n, dp);
+        int left = helper(i+1 , j , m, n, dp);
+        return dp[i][j] = right+left;
+    }
+}
