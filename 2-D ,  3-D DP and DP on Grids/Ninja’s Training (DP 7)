@@ -5,7 +5,7 @@ We are given a 2D Array POINTS of size ‘N*3’ which tells us the merit point 
 Our task is to calculate the maximum number of merit points that the ninja can earn.
 
 *********************************************************************************************************************************************************************
-Recursion Tree Image for Recurive Code :  ![image](https://user-images.githubusercontent.com/66727290/178422900-f383ed0c-2f48-4c11-ac8c-49f3aaf1069a.png)
+Recursion Tree Image for Recurive Code : ![image](https://user-images.githubusercontent.com/66727290/178701427-4de44b98-8d7c-4a8a-b573-af1e87bf92d4.png)
 
 *********************************************************************************************************************************************************************
 
