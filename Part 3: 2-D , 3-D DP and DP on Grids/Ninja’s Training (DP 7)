@@ -53,7 +53,9 @@ public class Solution {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#2. Memoization | TC = O(N) | SC = O(2N)- stack space and dp array 
+#2. Memoization
+==> TC = O(N * 4) * 3 => total Nx4 states, for every state- we are running for loop of size 3
+==> SC = O(N) stack space + O(N*4) dp[] space 
 ==> This code gives Stack Overflow ERROR-> 10/11 test cases passed on code studio
 
 import java.util.*;
@@ -88,4 +90,43 @@ public class Solution {
         }
         return dp[day][task] = ans;
     }  
+}   
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#3. Tabulation 
+==> TC = O(N * 4) * 3 => there are 3 nested loops.
+==> SC = O(Nx4) -> dp[] space 
+==> All test cases passed!
+
+
+import java.util.*;
+public class Solution {
+    public static int ninjaTraining(int n, int points[][]) {
+        int dp[][] = new int[n][4]; //find what max possible values for n and task no. will be
+        // for n-> 0 to n-1 , for task index-> 0,1,2,3
+        //all values of dp[][] are initially are filled with 0
+        
+        //1. Initializaton of base case
+        dp[0][0] = Math.max( points[0][1] , points[0][2]);
+        dp[0][1] = Math.max( points[0][0] , points[0][2]);            
+        dp[0][2] = Math.max( points[0][0] , points[0][1]);   
+        dp[0][3] = Math.max( points[0][0] , Math.max( points[0][1] , points[0][2] ) );
+        
+        //to fill the dp[][] array, we need 2 nested for loops.
+        
+        for(int day=1; day<=n-1 ; day++){
+            for(int task = 0; task<4; task++){
+                //copy paste the recursion logic 
+                //int ans = 0; no need bcz my dp[day][task] already = 0
+                for(int i=0; i<=2 ; i++){
+                    if(i != task){
+                        int temp = points[day][i] + dp[day-1][i];
+                        dp[day][task] = Math.max(dp[day][task], temp);                       
+                    }
+                }
+                
+            }
+        }
+        return dp[n-1][3]; 
+    }
 }   
