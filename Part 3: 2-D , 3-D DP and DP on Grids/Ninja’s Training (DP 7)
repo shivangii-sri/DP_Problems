@@ -28,7 +28,7 @@ Approach:
 public class Solution {
     public static int ninjaTraining(int n, int points[][]) {
         // Write your code here..
-        int task = n;
+        int task = 3;
         return helper(n-1 , task , points);
     }
     private static int helper(int day, int task, int arr[][]){
@@ -51,3 +51,41 @@ public class Solution {
         return ans;
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#2. Memoization | TC = O(N) | SC = O(2N)- stack space and dp array 
+==> This code gives Stack Overflow ERROR
+
+import java.util.*;
+public class Solution {
+    public static int ninjaTraining(int n, int points[][]) {
+        // Write your code here..
+        int dp[][] = new int[n][4]; //find what max possible values for n and task no. will be. For n-> 0 to n-1 , for task index-> 0,1,2,3
+         for(int[] x:dp){
+            Arrays.fill(x,-1);
+        }
+        int task = 3;
+        return helper(n-1 , task , points, dp);
+    }
+    private static int helper(int day, int task, int arr[][], int[][] dp){
+        if(day == 0) {
+            int maxi =0;
+            for(int i=0; i<=2; i++){
+                if(i != task){
+                    maxi = Math.max(maxi , arr[0][i]);
+                }
+            }    
+            return maxi;
+        }      
+        if(dp[day][task] != -1) return dp[day][task];
+        
+        int ans = 0;
+        for(int i=0; i<=2 ; i++){
+            if(i != task){
+                int temp = arr[day][i] + helper(day-1, i, arr, dp);
+                ans = Math.max(ans, temp);                       
+            }
+        }
+        return dp[day][task] = ans;
+    }  
+}   
