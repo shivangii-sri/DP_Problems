@@ -131,3 +131,46 @@ public class Solution {
     }
 }   
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#4. Space Optimization
+==> TC = O(N * 4) * 3 => there are 3 nested loops.
+==> SC = O(1) -> constant space for just 4-size array -> Mind Blowing!!
+==> All test cases passed!
+
+
+import java.util.*;
+public class Solution {
+    //Space Optimization - O(1) almost constant space with 4 size array! mind blowing
+    
+    public static int ninjaTraining(int n, int points[][]) {
+        //The first array only we are initializing. we will use this to compute next array. Then store this computed array into prev to compute next array.
+        //1. Initializaton of base case
+        int prev[] = new int[4];          
+        prev[0] = Math.max( points[0][1] , points[0][2]);
+        prev[1] = Math.max( points[0][0] , points[0][2]);            
+        prev[2] = Math.max( points[0][0] , points[0][1]);   
+        prev[3] = Math.max( points[0][0] , Math.max( points[0][1] , points[0][2] ) );
+        
+        //to fill the dp[][] array, we need 2 nested for loops in tabulation
+        
+        for(int day=1; day<=n-1 ; day++){
+            int[] temp = new int[4];  //to compute current array, create a temp[] of size 4
+            for(int task = 0; task<4; task++){
+                
+                //copy paste the recursion logic 
+                for(int i=0; i<=2 ; i++){
+                    if(i != task){
+                        //change dp[day] to temp[] bcz current day is temp[]
+                        //change dp[day-1] to prev[] bcz prev day is prev[]
+                        temp[task] = Math.max( temp[task], points[day][i] + prev[i]);                       
+                    }
+                }
+            }
+            prev = temp;
+        }
+        return prev[3]; 
+    }
+}   
+
+
+
