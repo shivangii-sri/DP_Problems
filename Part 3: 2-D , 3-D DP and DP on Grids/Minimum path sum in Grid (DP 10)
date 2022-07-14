@@ -1,6 +1,7 @@
 ********************************************************************************************************************************************************************
 
 Leetcode link : https://leetcode.com/problems/minimum-path-sum/
+Below is Leetcode Solution
 
 ********************************************************************************************************************************************************************
 
@@ -29,3 +30,64 @@ class Solution {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#2. Memoization | TC = O(M x N) = No. of states |  SC= O(m-1 + n-1) stack space will take path length+  O(M x N) ->dp[][] space
+==> All test cases passed!
+
+class Solution {   
+    public int minPathSum(int[][] grid) {     
+        int row = grid.length;
+        int col = grid[0].length;
+        
+        int[][] dp = new int[row][col];
+        for(int[] x : dp){
+            Arrays.fill(x , -1);
+        }
+        return helper(row-1, col-1 , grid, dp);   
+    }   
+    //func to return minisum sum of path
+    private static int helper(int m, int n , int[][] arr, int[][] dp){
+        if(m==0 && n==0) return arr[m][n];
+        if(m < 0 || n< 0) return Integer.MAX_VALUE; //check if out of bounds, return large cost to be never considered
+        if(dp[m][n] != -1) return dp[m][n];
+        
+        int left =  helper(m , n-1 , arr, dp); 
+        int up = helper(m-1 , n , arr, dp);        
+        return dp[m][n] = arr[m][n] + Math.min(left , up);                 
+    }       
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#3. Tabulation | TC = O(MxN)) to compute these states | SC= O(M x N) dp[][] space 
+==> All test cases passed!
+
+class Solution {
+    public int minPathSum(int[][] grid) {     
+        int row = grid.length;
+        int col = grid[0].length;
+        
+        int[][] dp = new int[row][col];
+        
+        for(int i=0; i<row ; i++){
+            
+            for(int j=0; j<col; j++){
+                //1. initialization
+                if(i==0 && j==0){
+                    dp[i][j] = grid[0][0];
+                }
+                else{
+                    //copy paste memo logic
+                     int left = Integer.MAX_VALUE; //take max value , not 0, because if left is not possible, we never want to consider left.
+                     int up = Integer.MAX_VALUE; //take max value , not 0, because if up is not possible, we never want to consider up path.
+                    
+                     if(j > 0) left = dp[i][j-1]; 
+                     if(i > 0) up = dp[i-1][j];
+                     dp[i][j] = grid[i][j] + Math.min(left , up); 
+                }
+            }
+        }
+        return dp[row-1][col-1];
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#4. Space Optimization | TC = O(N * 4) * 3 => there are 3 nested loops | SC = O(N)-> space of prev[] of size N 
+==> All test cases passed!
