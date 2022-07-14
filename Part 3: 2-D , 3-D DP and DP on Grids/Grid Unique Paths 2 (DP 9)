@@ -1,3 +1,7 @@
+Leetcode Link : https://leetcode.com/problems/unique-paths-ii/ -> (Question slighly diff that the first cell i.e a[0][0] can also be a blocker)
+
+The below solutions are btw for Code Studio problem, link available on Striver DP Sheet
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #1 Recursion | TC = O(2^ (MxN)) | SC= O(length of path) = O(m-1 + n-1) -> stack space will go length of path deeper 
@@ -12,8 +16,8 @@ public class Solution {
         if(i < 0 || j < 0) return 0; //when going out of bound
         if(i>= 0 && j>=0 && mat.get(i).get(j) == -1) return 0; 
         
-        int left = countPaths(i , j-1 , mat);
-        int up = countPaths(i-1 , j , mat);
+        int left = helper(i , j-1 , mat);
+        int up = helper(i-1 , j , mat);
         return left + up;
   }
 }
