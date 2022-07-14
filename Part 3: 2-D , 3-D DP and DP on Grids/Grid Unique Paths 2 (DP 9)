@@ -2,6 +2,13 @@ Leetcode Link : https://leetcode.com/problems/unique-paths-ii/ -> (Question slig
 
 The below solutions are btw for Code Studio problem, link available on Striver DP Sheet
 
+*********************************************************************************************************************************************************************
+
+Image for Space Optimization Table : ![image](https://user-images.githubusercontent.com/66727290/178914182-692027ef-e144-4788-b825-19283d2e12ab.png)
+
+*********************************************************************************************************************************************************************
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #1 Recursion | TC = O(2^ (MxN)) | SC= O(length of path) = O(m-1 + n-1) -> stack space will go length of path deeper 
