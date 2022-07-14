@@ -1,0 +1,31 @@
+********************************************************************************************************************************************************************
+
+Leetcode link : https://leetcode.com/problems/minimum-path-sum/
+
+********************************************************************************************************************************************************************
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#1 Recursion | TC = O(2^ (MxN)) | SC= O(length of path) = O(m-1 + n-1) -> stack space will go length of path deeper 
+//Recursion gives TLE
+
+class Solution {   
+    public int minPathSum(int[][] grid) {     
+        int row = grid.length;
+        int col = grid[0].length;
+        return helper(row-1, col-1 , grid);   
+    }
+    
+    //func to  will be returning minisum sum of path
+    private static int helper(int m, int n , int[][] arr){
+        if(m==0 && n==0) return arr[m][n];
+        if(m < 0 || n< 0) return Integer.MAX_VALUE; //check if out of bounds, return large cost to be never considered      
+        
+        int left =  helper(m , n-1 , arr); 
+        int up = helper(m-1 , n , arr);      
+        return arr[m][n] + Math.min(left , up);                 
+    }        
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
