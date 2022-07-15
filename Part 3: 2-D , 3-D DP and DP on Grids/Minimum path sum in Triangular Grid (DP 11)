@@ -1,0 +1,20 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#1 Recursion | TC = O(2^ (No. of elements in matrix)) | SC= O(N) -> stack space will go upto length of rows in matrix i.e N 
+//Recursion gives TLE
+
+public class Solution {
+    public static int minimumPathSum(int[][] triangle, int n) {
+        // Write your code here.      
+        return helper(0, 0, n, triangle);
+    }
+    private static int helper(int i, int j, int n, int[][] a){
+        //base
+        if(i == n-1) return a[i][j];//whenever i reach last row, i return value of a[i][j]
+        
+        int down1 = helper(i+1, j, n, a);
+        int down2 = helper(i+1, j+1, n, a);        
+        return a[i][j] + Math.min(down1 , down2);
+    }    
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
