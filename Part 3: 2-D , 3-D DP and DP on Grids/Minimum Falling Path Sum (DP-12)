@@ -40,7 +40,42 @@ class Solution {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#2. Memoization | TC = O(N x M) = No. of states |  SC= O(N) ->stack space + O(N x M)->dp[][] space
+//MEMO -> Top - Down
 
+class Solution {
+    public int minFallingPathSum(int[][] matrix) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        
+        int[][] dp = new int[row][col];
+        for(int[] x : dp){
+            Arrays.fill(x, -1);
+        }
+        
+        //since start points are variables, we call helper() for all possible start points and return MINIMUM among these.
+        int res = Integer.MAX_VALUE;
+        for(int j=0 ; j<col ; j++){
+            res = Math.min(res, helper(row-1 , j, matrix, dp));
+        }
+        return res;
+    }
+    
+    private static int helper(int i, int j, int[][] a , int[][] dp){
+   
+        if(j<0 || j>= a[0].length) return Integer.MAX_VALUE; //check if column going out of bound
+        if(i == 0) {//reached first row , so return
+            return a[i][j];
+        }
+        if(dp[i][j] != -1) return dp[i][j];
+          
+        int diagL = helper(i-1, j-1, a, dp); 
+        int down  = helper(i-1, j  , a, dp);
+        int diagR = helper(i-1, j+1, a, dp);
+            
+        return dp[i][j] = a[i][j] + Math.min(diagL , Math.min(down , diagR)); //return cur value + MINIMUM of these 3
+    }
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
