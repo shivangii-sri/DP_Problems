@@ -1,0 +1,53 @@
+********************************************************************************************************************************************************************
+
+Leetcode link : https://leetcode.com/problems/minimum-falling-path-sum/
+Below is Leetcode Solution
+
+********************************************************************************************************************************************************************
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#1 Recursion | TC = O(3 ^ (N x M)) | SC= O(N) -> stack space will go upto length of rows deep
+//Recursion gives TLE
+
+
+class Solution {
+    // Recursion - Top Down 
+    public int minFallingPathSum(int[][] matrix) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        
+        //since start point is variable, we call heper() for all possible star5t points and return MINIMUM among these
+        int res = Integer.MAX_VALUE;
+        for(int j=0 ; j<col ; j++){
+            res = Math.min(res, helper(row-1 , j, matrix));
+        }
+        return res;
+    }    
+    private static int helper(int i, int j, int[][] a){       
+        // base
+        if(j<0 || j>= a[0].length) return Integer.MAX_VALUE; //check if column going out of bound
+        if(i == 0) {//reached first row , so return
+            return a[i][j];
+        }
+          
+        int diagL = helper(i-1, j-1, a); 
+        int down  = helper(i-1, j  , a);
+        int diagR = helper(i-1, j+1, a);
+            
+        return a[i][j] + Math.min(diagL , Math.min(down , diagR)); //return cur value + MINIMUM of these 3
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
