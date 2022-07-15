@@ -40,3 +40,33 @@ public class Solution {
         return dp[i][j] = a[i][j] + Math.min(down1 , down2);
     }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#3. Tabulation | TC = O(N x N) to compute these states | SC= O(N x N) dp[][] space, no stack space 
+Approach :
+1. Memoization was from 0,0 to last row, So Tabulation will be top down i.e from last row to 0,0
+2. Answer will be stored at 0,0, what we returned in recursion code
+
+public class Solution {
+  
+    public static int minimumPathSum(int[][] triangle, int n) {
+        int[][] dp = new int[n][n];
+    
+        for(int i=n-1; i>=0; i--){
+            for(int j=i; j>=0; j--){
+                //Initialization
+                if(i == n-1){
+                    dp[i][j] = triangle[i][j];
+                }
+                else{
+                    //paste recursion logic
+                    int down1 = dp[i+1][j];
+                    int down2 = dp[i+1][j+1];        
+                    dp[i][j] = triangle[i][j] + Math.min(down1 , down2);
+                }
+            }
+        }
+       
+        return dp[0][0];
+    }
+}
