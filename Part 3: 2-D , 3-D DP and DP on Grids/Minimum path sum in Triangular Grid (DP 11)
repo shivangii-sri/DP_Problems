@@ -18,3 +18,25 @@ public class Solution {
     }    
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#2. Memoization | TC = O(N x N) = No. of states | SC= O(N)-> stack space + O(N x N)-> dp[][] space
+==> All test cases passed!
+
+public class Solution {
+    public static int minimumPathSum(int[][] triangle, int n) {
+        int[][] dp = new int[n][n]; //however its a triangular array, so half part of the dp[][] was not required, but to keep it simpl, we take dp[n][n]
+        for(int[] x : dp){
+            Arrays.fill(x, -1);
+        }
+        return helper(0, 0, n, triangle, dp);
+    }
+    private static int helper(int i, int j, int n, int[][] a, int[][] dp){
+        //base
+        if(i == n-1) return a[i][j];//whenever i reach last row
+        if(dp[i][j] != -1) return dp[i][j];
+        
+        int down1 = helper(i+1, j, n, a, dp);
+        int down2 = helper(i+1, j+1, n, a, dp);
+        
+        return dp[i][j] = a[i][j] + Math.min(down1 , down2);
+    }
+}
