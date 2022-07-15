@@ -27,10 +27,8 @@ class Solution {
     private static int helper(int i, int j, int[][] a){       
         // base
         if(j<0 || j>= a[0].length) return Integer.MAX_VALUE; //check if column going out of bound
-        if(i == 0) {//reached first row , so return
-            return a[i][j];
-        }
-          
+        if(i == 0) return a[i][j]; //reached first row , so return
+            
         int diagL = helper(i-1, j-1, a); 
         int down  = helper(i-1, j  , a);
         int diagR = helper(i-1, j+1, a);
@@ -64,9 +62,7 @@ class Solution {
     private static int helper(int i, int j, int[][] a , int[][] dp){
    
         if(j<0 || j>= a[0].length) return Integer.MAX_VALUE; //check if column going out of bound
-        if(i == 0) {//reached first row , so return
-            return a[i][j];
-        }
+        if(i == 0) return a[i][j]; //reached first row , so return
         if(dp[i][j] != -1) return dp[i][j];
           
         int diagL = helper(i-1, j-1, a, dp); 
