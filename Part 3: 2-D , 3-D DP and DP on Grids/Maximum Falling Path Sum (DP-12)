@@ -1,7 +1,18 @@
+********************************************************************************************************************************************************************
+Code Studio Soluiton - 
+Question : You have been given an N*M matrix filled with integer numbers, find the maximum sum that can be obtained from a path starting from any cell in the first row to any cell in the last row.
+From a cell in a row, you can move to another cell directly below that row, or diagonally below left or right. So from a particular cell (row, col), we can move in three directions i.e.
+Down: (row+1,col)
+Down left diagonal: (row+1,col-1)
+Down right diagonal: (row+1, col+1)
+********************************************************************************************************************************************************************
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #1 Recursion | TC = O(3 ^ (N x M)) | SC= O(N) -> stack space will go upto length of rows deep
 //Recursion gives TLE
+==> All test cases passed!
 
 public class Solution {
 	 public static int getMaxPathSum(int[][] matrix) {
@@ -31,6 +42,7 @@ public class Solution {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #2. Memoization | TC = O(N x M) = No. of states |  SC= O(N) ->stack space + O(N x M)->dp[][] space
 //MEMO -> Top - Down
+==> All test cases passed!
 
 
 public class Solution {
@@ -67,6 +79,7 @@ public class Solution {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #3. Tabulation | TC = O(N x M)) to compute dp[][] | SC= O(M x N) dp[][] space 
 // Tabu - Bottom Up
+==> All test cases passed!
 
 
 public class Solution {
@@ -100,3 +113,46 @@ public class Solution {
         return res;
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#4. Space Optimization | TC = O(N x M)  | SC = O(N)-> space of prev[] of size N =columns size
+==> All test cases passed!
+
+public class Solution {
+    public static int getMaxPathSum(int[][] matrix) {
+	int row = matrix.length;
+        int col = matrix[0].length;
+        
+        //since start point is variable, we call helper() for all possible start points and return Maximum among these
+        int prev[] = new int[col];
+        int res = Integer.MIN_VALUE;
+        
+        for(int i=0; i<row; i++){
+            int cur[] = new int[col];
+            for(int j=0; j<col; j++){
+                //Initialize
+                if(i == 0) {
+                   cur[j] = matrix[i][j];   
+                }
+                else{
+                    //copy recursion logic
+                    int diagL = Integer.MIN_VALUE;
+                    int up = Integer.MIN_VALUE;
+                    int diagR = Integer.MIN_VALUE;
+                    if(j > 0) diagL = prev[j-1];
+                    up = prev[j];
+                    if(j < col-1) diagR = prev[j+1] ; 
+
+                    cur[j]= matrix[i][j] + Math.max(diagL, Math.max(up, diagR));
+                }
+                if(i == row-1) //if last row
+                    res = Math.max(res, cur[j]);
+            }
+            prev = cur;
+        }
+        return res;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
