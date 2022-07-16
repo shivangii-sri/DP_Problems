@@ -74,7 +74,43 @@ class Solution {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#3. Tabulation | TC = O(N x M)) to compute dp[][] | SC= O(M x N) dp[][] space 
 
+class Solution {    
+    public int minFallingPathSum(int[][] matrix) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int res = Integer.MAX_VALUE;
+        
+        int[][] dp = new int[row][col];
+        
+        for(int i =0; i<row; i++){
+            for(int j=0; j<col; j++){
+                //Initialization of base case -> the first row
+                if(i == 0){
+                    dp[i][j] = matrix[i][j];
+                }
+                else{
+                    //paste the memo logic
+                    int diagL = Integer.MAX_VALUE;
+                    int up = Integer.MAX_VALUE;
+                    int diagR = Integer.MAX_VALUE;
+                    
+                    if(j>0) diagL = dp[i-1][j-1]; 
+                    up  = dp[i-1][j];
+                    if(j<col-1) diagR = dp[i-1][j+1];            
+                    
+                    dp[i][j] = matrix[i][j] + Math.min(diagL , Math.min(up , diagR)); //return cur value + MINIMUM of these 3                    
+                }
+                //Since we called for variable starting states in memo, we take minimum value among all the cells in last row, and return res.
+                // NOTE: this step to store min of last row must be done outside if-else, otherwise gives error for testcase like this-> [[-48]] 
+                if(i == row - 1) //if we reach last row
+                    res = Math.min(res, dp[i][j]);
+            }
+        }
+        return res;
+    }   
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
