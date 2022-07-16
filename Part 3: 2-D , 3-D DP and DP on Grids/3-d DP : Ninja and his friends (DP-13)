@@ -42,5 +42,53 @@ public class Solution {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #2. Memoization | TC = O(N x M) = No. of states |  SC= O(N) ->stack space + O(N x M)->dp[][] space
-//MEMO -> going firt row to last row but REMEMBER- Recusrion is always Top-down, thus MEMO also.
+//MEMO -> going firt row to last row but 
+//REMEMBER- Recursion is always Top-down, bcz we solve from a point, go down, and then return back to top. Just what we do in recursion tree.
+
+Approach:
+==>To make 3D DP, we follow these steps of converting Recursion into MEMO
+1. In the recursion, which parameters are changing : i, j1, j2
+2. Analyze the possible values of these parameters: i->0 to row ; j1-> 0 to col ; j2-> 0 to col
+
+
+import java.util.*;
+public class Solution {
+	public static int maximumChocolates(int r, int c, int[][] grid) {
+		// MEMO
+        int[][][] dp = new int[r][c][c];
+        for(int[][] x : dp){
+            for(int[] y  : x){
+                Arrays.fill(y, -1);
+            }
+        }
+        
+        int i=0, j1=0, j2=c-1;
+        return helper(i, j1, j2, grid, dp);
+	}
+    private static int helper(int i, int j1, int j2, int[][] a, int[][][] dp){
+        //base case
+        if(j1<0 || j1>=a[0].length || j2<0 || j2>=a[0].length) {
+            return Integer.MIN_VALUE;
+        }
+        if(i == a.length-1){
+            if(j1 == j2) return a[i][j1];
+            else return a[i][j1] + a[i][j2];
+        }
+        if(dp[i][j1][j2] != -1) return dp[i][j1][j2];
+        
+        //try 9 combos- for all 3 dirn of Alice, we have 3 possible dirn of Bob
+        int maxi = Integer.MIN_VALUE;
+        for(int dj1=-1 ; dj1<=1  ;dj1++){
+            for(int dj2=-1 ; dj2<=1 ; dj2++){
+                if(j1 == j2){
+                   maxi = Math.max(maxi, a[i][j1] + helper(i+1, j1+dj1 , j2+dj2, a, dp) ); 
+                }  
+                else{
+                    maxi = Math.max(maxi, a[i][j1] + a[i][j2] + helper(i+1, j1+dj1 , j2+dj2, a, dp) );
+                }
+            }
+        }
+        return dp[i][j1][j2] = maxi;
+    }
+}
 
