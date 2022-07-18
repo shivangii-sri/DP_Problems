@@ -52,7 +52,7 @@ class Solution {
 }
 
 
----------------SUD Soln--------------
+---------------Dad Soln--------------
 class Solution {
     int[] dp=new int[0];
     
@@ -106,7 +106,7 @@ class Solution {
     }
 }
 
-----------SUD SOln------
+----------Dad SOln------
 class Solution {
     public int climbStairs(int n) {        
         if(n==1) return 1;       
@@ -142,7 +142,7 @@ class Solution {
     }
 }
 
-----------SUD Soln------------
+----------Dad Soln------------
 class Solution {  
     public int climbStairs(int n) {        
         if(n==1) return 1;
