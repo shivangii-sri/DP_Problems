@@ -56,7 +56,7 @@ public class Solution {
     }
 }
 
-********************  SUD Code  **********************
+********************  Dad Code  **********************
 
 public class Solution {
   public static int maximumNonAdjacentSum(ArrayList<Integer> nums) {
@@ -126,7 +126,7 @@ public class Solution {
     }
 }
 
-*****************SUD COde********************
+***************** dad COde********************
 import java.util.*;
 public class Solution {
  public static int maximumNonAdjacentSum(ArrayList<Integer> nums) {
