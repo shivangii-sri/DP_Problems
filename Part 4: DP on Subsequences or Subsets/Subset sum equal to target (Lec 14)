@@ -2,3 +2,24 @@ Approach for DP on Subsequence
 1. Express everything in terms of index and target
 2. Explore all possibilities of that index. (Eg. an index can be part of the subsequence or not the part of the subsequence)
 3. Return T/F
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#1 Recursion | TC = O(2^N) -for every index we have two possibilities pick and not pick | SC= O(N) -> aux stack space 
+//Recursion doing by starting from index 0 to n
+
+public class Solution {
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        // Write your code here.
+         return solUtil(0, 0 , arr, k );
+    }
+    public static boolean solUtil(int idx, int sum , int[] arr, int k){
+       if(sum == k) return true;
+       if(idx == arr.length) return false;
+       if( sum > k) return false;
+    
+       boolean take = solUtil(idx+1, sum+arr[idx], arr, k);
+       boolean notTake = solUtil(idx+1, sum , arr, k);      
+       return (take || notTake); 
+    }
+}
