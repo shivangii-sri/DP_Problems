@@ -1,0 +1,49 @@
+Approach:
+1. Find total sum of all the array elements. 
+2. In order to partition into equal subset, we divide total sum by 2, and check if any subset is present in the array having sum = totSum / 2
+3. Note : if totSum/2 is odd, we return false
+4. Else, search if there is a subset with sum equal to totSum/2;
+
+
+
+public class Solution {
+	public static boolean canPartition(int[] arr, int n) {
+		// Write your code here.
+        int totSum = 0;
+        for(int i=0; i<n; i++){
+            totSum += arr[i];
+        }
+        if(totSum % 2 != 0) return false; // if odd, equal sum partition not possible
+        int target = totSum / 2 ;
+        
+        return subsetSumToK(n, target, arr);
+        
+	 }
+   //Space Optimize code for subset sum..
+   public static boolean subsetSumToK(int n, int k, int arr[]){
+        boolean[] prev =new boolean[k+1];     
+       
+        //Step 1. Initialize your base cases
+        //Base Case 1 :- 
+        prev[0] = true; //we can always have 0 target sum by taking empty subset       
+        // Base Case 2 :- 
+        if(arr[0] <= k) prev[arr[0]] = true;         
+        
+        //Step 2. For loop
+        for(int index=1; index<n ; index++){
+            boolean cur[] = new boolean[k+1];
+            cur[0] = true;
+            for(int target=1; target<=k ; target++){
+                //Step 3. Copy paste recursion logic
+                boolean notTake= prev[target];      
+                boolean take=false;
+                if(target>=arr[index]){
+                    take= prev[ target-arr[index] ];
+                }               
+                cur[target] = take || notTake;                
+            }
+            prev = cur ;
+        }
+        return prev[k];
+    }
+}
