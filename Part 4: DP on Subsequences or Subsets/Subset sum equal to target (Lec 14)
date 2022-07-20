@@ -3,10 +3,80 @@ Approach for DP on Subsequence
 2. Explore all possibilities of that index. (Eg. an index can be part of the subsequence or not the part of the subsequence)
 3. Return T/F
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+#1 Recursion | TC = O(2^N) -for every index we have two possibilities pick and not pick    |    SC= O(N) -> aux stack space 
 
+
+public class Solution {
+   // Starting from index n to 0
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        // Write your code here.
+         return solUtil( n-1, k, arr );
+    }
+    public static boolean solUtil(int idx, int target , int[] arr){
+       if(target == 0) return true;
+       if(idx == 0) return arr[0] == target;
+
+        
+        boolean notTake = solUtil(idx-1, target, arr);
+        boolean take = false;
+        if(target >= arr[idx])
+            take = solUtil(idx-1, target-arr[idx], arr);
+          
+        return (take || notTake); 
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                        
+#2. Memoization | TC = O(N x K) = No. of states    |     SC= O(N) aux stack space  +  O(N x K) dp[][] space
+
+import java.util.*;
+public class Solution {
+   //doing by Memo, starting from index n to 0
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        // Write your code here.
+        int[][] dp=new int[n][k+1];     
+        for(int[] x:dp){
+            Arrays.fill(x,-1);
+        }
+        
+        int ans=solUtil(n-1,arr,k,dp);
+        
+        if(ans==1) return true;
+        return false;
+    }
+    public static int solUtil(int index, int[] arr, int target, int[][] dp){   
+        if(target==0) return 1;      
+        if(index==0) {
+            if( arr[index]==target) return 1;
+            else return 0;
+        }
+        if(dp[index][target]!=-1) return dp[index][target];   
+        
+        int notTake=solUtil(index-1,arr,target,dp);      
+        int take=0;
+        if(target>=arr[index]){
+            take=solUtil(index-1,arr,target-arr[index],dp);
+        }               
+        if(take==0 && notTake==0){
+            dp[index][target]=0;
+        }else{
+            dp[index][target]=1;
+        }
+        return dp[index][target];
+    }
+}
+
+
+
+
+*********************************************************************************************************************************************************************
+//Recursion doing by starting from index 0 to n  _-------- Solution I tried doing ,  stopped at MEMO
+
+
+ 
 #1 Recursion | TC = O(2^N) -for every index we have two possibilities pick and not pick | SC= O(N) -> aux stack space 
-//Recursion doing by starting from index 0 to n
 
 public class Solution {
     public static boolean subsetSumToK(int n, int k, int arr[]){
