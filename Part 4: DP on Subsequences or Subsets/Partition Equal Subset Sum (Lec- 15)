@@ -7,7 +7,7 @@ Approach:
 
 
 public class Solution {
-	public static boolean canPartition(int[] arr, int n) {
+    public static boolean canPartition(int[] arr, int n) {
 		// Write your code here.
         int totSum = 0;
         for(int i=0; i<n; i++){
@@ -18,7 +18,7 @@ public class Solution {
         
         return subsetSumToK(n, target, arr);
         
-	 }
+   }
    //Space Optimize code for subset sum..
    public static boolean subsetSumToK(int n, int k, int arr[]){
         boolean[] prev =new boolean[k+1];     
