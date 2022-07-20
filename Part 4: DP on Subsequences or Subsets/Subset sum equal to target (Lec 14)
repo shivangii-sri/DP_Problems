@@ -107,6 +107,40 @@ public class Solution {
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#4. Space Optimization | TC = O(N x K) => no. of states | SC = O(K)-> space of prev[] of size K+1
+==> All test cases passed!
+
+import java.util.*;
+public class Solution {
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        
+        boolean[] prev =new boolean[k+1];     
+       
+        //Step 1. Initialize your base cases
+        //Base Case 1 :- 
+        prev[0] = true; //we can always have 0 target sum by taking empty subset       
+        // Base Case 2 :- 
+        if(arr[0] <= k) prev[arr[0]] = true;         
+        
+        //Step 2. For loop
+        for(int index=1; index<n ; index++){
+            boolean cur[] = new boolean[k+1];
+            cur[0] = true;
+            for(int target=1; target<=k ; target++){
+                //Step 3. Copy paste recursion logic
+                boolean notTake= prev[target];      
+                boolean take=false;
+                if(target>=arr[index]){
+                    take= prev[ target-arr[index] ];
+                }               
+                cur[target] = take || notTake;                
+            }
+            prev = cur ;
+        }
+        return prev[k];
+    }
+}
 
 
 
