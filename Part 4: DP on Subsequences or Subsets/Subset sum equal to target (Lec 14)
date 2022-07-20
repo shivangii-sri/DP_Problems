@@ -68,6 +68,45 @@ public class Solution {
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#3. Tabulation | TC = O(N x K) to compute these states |  SC= O(M x N) dp[][] space , no aux stack space
+//1. Convert dp[][] into boolean
+
+
+import java.util.*;
+public class Solution {
+   
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        boolean[][] dp=new boolean[n][k+1];     
+        //Step 1. Initialize your base cases
+        //Base Case 1 :- 
+        for(int i=0; i<n; i++) dp[i][0] = true; //we can always have 0 target made by taking empty subset
+        
+         // Base Case 2 :- 
+        if(arr[0] <= k) dp[0][arr[0]] = true; //at index 0, we can only form targets whose value is equal to arr[0] i.e target == arr[0]
+        //Also can write this way :-
+//         for(int target=1; target<=k ; target++){
+//             if(target <= k){
+//                if(arr[0] == target) dp[0][target] = true;   
+//             }
+//         }     
+        
+        //Step 2. For loop :-  1st row is marked, also first column for target==0, is marked.
+        for(int index=1; index<n ; index++){
+            for(int target=1; target<=k ; target++){
+                //Step 3. Copy paste recursion logic
+                boolean notTake= dp[index-1][target];      
+                boolean take=false;
+                if(target>=arr[index]){
+                    take= dp[index-1][ target-arr[index] ];
+                }               
+                dp[index][target] = take || notTake;                
+            }
+        }
+        return dp[n-1][k];
+    }
+}
+
 
 
 
