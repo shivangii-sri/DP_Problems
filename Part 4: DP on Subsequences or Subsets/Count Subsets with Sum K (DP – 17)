@@ -2,8 +2,9 @@
 #1 Recursion | TC = O(2^N) -for every index we have two possibilities pick and not pick    |    SC= O(N) -> aux stack space 
 
 public class Solution {
-    public static int findWays(int num[], int tar) {       
-        return helper(num.length - 1, tar , num );  //count how many subsets with sum == target, start from last index , carrying target sum eqaul to "tar"
+    public static int findWays(int num[], int tar) {    
+        //count how many subsets with sum == target, start from last index , carrying target sum eqaul to "tar"
+        return helper(num.length - 1, tar , num );  
     }
     private static int helper(int i, int sum, int[] a){
         //base
@@ -22,3 +23,38 @@ public class Solution {
         return pick + notPick;
     } 
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                        
+#2. Memo | TC = O(N x target) -no. of states | SC = O(N) + O(N x Target)
+
+import java.util.*;
+public class Solution {
+    public static int findWays(int num[], int tar) {      
+        //count how many subsets with sum == target
+        int dp[][] = new int[num.length][tar+1];
+        for(int[] x : dp){
+            Arrays.fill(x, -1);
+        }
+        return helper(num.length - 1, tar , num , dp);
+    }      
+    private static int helper(int i, int sum, int[] a, int[][] dp){
+        //base
+//         if(sum == 0){
+//             return dp[i][sum]=1;
+//         }
+        if(i == 0) {            
+            if(sum==0 && a[0]==0) return 2;          
+            if(sum==0 || sum==a[0]) return 1;            
+            return 0;        
+        }
+        if(dp[i][sum] != -1) return dp[i][sum];
+        
+        int notPick = helper(i-1, sum, a, dp); 
+        int pick = 0;
+        if(a[i] <= sum) pick = helper(i-1, sum - a[i], a, dp);      
+        return dp[i][sum] = pick + notPick;
+    } 
+}
+
+
