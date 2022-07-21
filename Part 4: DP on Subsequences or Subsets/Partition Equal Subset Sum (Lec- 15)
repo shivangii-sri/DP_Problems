@@ -4,6 +4,9 @@ Approach:
 3. Note : if totSum/2 is odd, we return false
 4. Else, search if there is a subset with sum equal to totSum/2;
 
+TC = O(N) + O(N x totSum/2)  
+SC = O(K) -> for prev[] array
+
 
 
 public class Solution {
