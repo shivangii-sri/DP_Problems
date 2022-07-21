@@ -1,0 +1,58 @@
+/*
+1. We want s1-s2 to be as min as possible.
+2. If we find s1 (subset sum 1), no need to find s2. 
+3. We find all possible values of s1, 
+4. Min value of s1 = 0 when we dont take any elemnts in s1 partition
+5. Max value of s2 = Sum(n) when we take all elements in s1 partition.
+6. Now i will call tabulation method for subset sum with target = Sum(n),
+   The last row dp[n-1][target] will tell me how many subset sums from 0 to Sum(n) are possible for s1.
+7. Once we have all possible values of s1, we just run a for loop among these values to find min.
+8. Note: we can even run uptill half of the loop, since after halfway, s1 acquires s2 partiotion values and abs diff is same.
+
+==> TC = O(N) to find totSum + O(N x totSum) nested for loop tabulation for Subset sum + O(totSum/2)
+==> SC = O(N x totSum) for dp[][] space
+*/
+
+    
+public class Solution {
+	public static int minSubsetSumDifference(int[] arr, int n) {
+		// Write your code here.
+        int totSum = 0;
+        for(int i=0; i<n; i++){
+            totSum += arr[i];
+        }        
+        boolean dp[][] = new boolean[n][totSum+1];
+        
+        //Subset Sum Code - Tabulation
+        //Step 1. Initialize your base cases
+        //Base Case 1 :- 
+        for(int i=0; i<n; i++) dp[i][0] = true; //we can always have 0 target made by taking empty subset
+         // Base Case 2 :- 
+        if(arr[0] <= totSum) dp[0][arr[0]] = true; //at index 0, we can only form targets whose value is equal to arr[0] i.e target == arr[0]
+        
+        //Step 2. For loop :-  1st row is marked, also first column for target==0, is marked.
+        for(int index=1; index<n ; index++){
+            for(int target=1; target <= totSum ; target++){
+                //Step 3. Copy paste recursion logic
+                boolean notTake= dp[index-1][target];      
+                boolean take=false;
+                if(target>=arr[index]){
+                    take= dp[index-1][ target-arr[index] ];
+                }               
+                dp[index][target] = take || notTake;                
+            }
+        }
+        //return dp[n-1][k];
+        //Now we have build the dp array[][]
+        
+        //i need the minimal
+        int min = Integer.MAX_VALUE;
+        for(int s1 = 0; s1<= totSum/2 ; s1++){
+            if(dp[n-1][s1] == true) { 
+                int s2 = totSum - s1;
+                min = Math.min(min , Math.abs(s1 - s2 ) );
+            }
+        }
+        return min;       
+    }
+}
