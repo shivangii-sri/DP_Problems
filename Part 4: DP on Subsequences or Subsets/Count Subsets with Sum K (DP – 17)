@@ -1,0 +1,24 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+#1 Recursion | TC = O(2^N) -for every index we have two possibilities pick and not pick    |    SC= O(N) -> aux stack space 
+
+public class Solution {
+    public static int findWays(int num[], int tar) {       
+        return helper(num.length - 1, tar , num );  //count how many subsets with sum == target, start from last index , carrying target sum eqaul to "tar"
+    }
+    private static int helper(int i, int sum, int[] a){
+        //base
+        if(sum == 0){
+            return 1;
+        }
+        if(i == 0) {
+            if(a[0] == sum) return 1;
+            else return 0;
+        }
+        
+        int notPick = helper(i-1, sum, a ); 
+        int pick = 0;
+        if(a[i] <= sum) pick = helper(i-1, sum - a[i], a);
+        
+        return pick + notPick;
+    } 
+}
