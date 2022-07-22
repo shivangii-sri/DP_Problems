@@ -1,3 +1,51 @@
+***********************************************************************************************************************************************************
+Striver Code - Using Count Subsets with a modified target value. 
+Only did Memo of Striver Code.
+***********************************************************************************************************************************************************
+# Memoization | TC = O(N x Target) no. of states | SC= O(N) aux stack space + O(N x Target) dp[][] space
+
+import java.util.*;
+public class Solution {
+    static int mod = (int)(1e9 + 7);
+    
+	public static int countPartitions(int n, int d, int[] arr) {
+		// Write your code here.
+        int tot=0; //total sum
+        for(int e  : arr){
+             tot += e;
+        }
+        if((tot - d < 0) || ((tot-d) % 2 != 0)) return 0;
+        return countSubsetsWithSumK(arr, (tot-d)/2);
+        
+	}
+   public static int countSubsetsWithSumK(int num[], int tar) {      
+        //count how many subsets with sum == target
+        int dp[][] = new int[num.length][tar+1];
+        for(int[] x : dp){
+            Arrays.fill(x, -1);
+        }
+        return helper(num.length - 1, tar , num , dp);
+    }      
+    private static int helper(int i, int sum, int[] a, int[][] dp){
+        //base
+//         if(sum == 0){
+//             return dp[i][sum]=1;
+//         }
+        if(i == 0) {            
+            if(sum==0 && a[0]==0) return 2;          
+            if(sum==0 || sum==a[0]) return 1;            
+            return 0;        
+        }
+        if(dp[i][sum] != -1) return dp[i][sum];
+        
+        int notPick = helper(i-1, sum, a, dp); 
+        int pick = 0;
+        if(a[i] <= sum) pick = helper(i-1, sum - a[i], a, dp);      
+        return dp[i][sum] = (pick + notPick)%mod;
+    } 
+}
+
+
 
 ***********************************************************************************************************************************************************
 My first thought approach ->  Recursion -> TLE - 36/80 passed
