@@ -1,0 +1,36 @@
+
+***********************************************************************************************************************************************************
+My first thought approach ->  Recursion -> TLE - 36/80 passed
+***********************************************************************************************************************************************************
+Approach:
+1. Find total sum of array
+2. Find all possible subset sums, 
+3. After getting all subsets sums, check with which subset sum, we can have diff of s1, tot-s1 equal to given D.
+
+
+public class Solution {
+   static int mod = (int)(1e9 + 7);
+	
+   public static int countPartitions(int n, int d, int[] arr) {
+		// Write your code here.
+        int tot=0; //total sum
+        for(int e  : arr){
+            tot += e;
+        }
+        int cntsubsets = helper(n-1, 0, arr, d, tot);
+        if(d == 0) return cntsubsets;
+        return cntsubsets/2;
+	 }
+    private static int helper(int i, int sum, int[] a, int diff, int totSum){
+        if(i<0){
+            //s1 = sum
+            int s2 = totSum - sum;
+            if(Math.abs(sum - s2) == diff) return 1;
+            else return 0;
+        }
+        
+        int pick = helper(i-1, sum+a[i], a, diff, totSum);
+        int notpick = helper(i-1, sum, a, diff, totSum);
+        return (pick + notpick)%mod;
+   }
+}
