@@ -1,6 +1,12 @@
 ***********************************************************************************************************************************************************
 Striver Code - Using Count Subsets with a modified target value. 
 Only did Memo of Striver Code.
+
+Question: Given an array ‘ARR’, partition it into two subsets (possibly empty) such that their union is the original array. 
+Let the sum of the elements of these two subsets be ‘S1’ and ‘S2’.  
+Given a difference ‘D’, count the number of partitions in which ‘S1’ is greater than or equal to ‘S2’ and the difference between ‘S1’ and ‘S2’ is equal to ‘D’. 
+Since the answer may be too large, return it modulo ‘10^9 + 7’. 
+
 ***********************************************************************************************************************************************************
 # Memoization | TC = O(N x Target) no. of states | SC= O(N) aux stack space + O(N x Target) dp[][] space
 
