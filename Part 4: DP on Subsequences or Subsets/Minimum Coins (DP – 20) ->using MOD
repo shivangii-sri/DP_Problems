@@ -1,0 +1,37 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+#1 Recursion | TC = Exponential bcz same index can be picked unlimited times  |    SC= O(target) -> aux stack space -> like for arr[]= [1] and tar=5, we have cnt=5 
+
+Approach:
+1. Start from last index, with target given.
+2. We have two choices- 
+  a. if we can pick element, we stay at same index and check again if we can pick it.
+  b. not pick and move to prev index.
+3. NOTE: if we pick an element , cnt incr by 1
+         if we dont pick an element, add 0 as count.
+
+import java.util.*;
+public class Solution {
+    static int mod = (int)1e9+7;
+    
+    public static int minimumElements(int num[], int x) {
+        // Write your code here..
+        int n = num.length;
+        int ans =  helper(n-1, x, num);
+        if(ans == 147483633 || ans == 2147483647) return -1; //wrote from error-testcases.
+        else return ans;
+    }
+    // Fucntion to return min count
+    private static int helper(int i, int tar, int[] a){
+        //base
+        if(i == 0){
+            if(tar % a[0] == 0) return tar/a[0];
+            else return Integer.MAX_VALUE;
+        }
+        
+        int notpick = 0 + helper(i-1, tar, a); // count is 0 fro notpick
+        int pick = Integer.MAX_VALUE; // count increases by 1 for pick
+        if(a[i] <= tar) pick = (1 + helper(i , tar - a[i] , a)%mod );
+        
+        return Math.min(notpick , pick) % mod;
+    }
+}
