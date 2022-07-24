@@ -1,0 +1,32 @@
+***********************************************************************************************************************************************************
+VVVV IMP Question -: Given weight and value array for n items, with Knapsack weight W. Find the max value that can be added into knasack.
+***********************************************************************************************************************************************************
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+#1 Recursion | TC = O(2^N) -for every index we have two possibilities pick and not pick    |    SC= O(N) -> aux stack space 
+
+Approach:
+1. We focus on two parameters- index, W of Knapsack.
+2. Starting with the last index, we explore 2 possibilities- not pick or pick it only if its weight is <= knapsack weight.
+3. If we pick an element, we make sure to reduce knapsck Weight W.
+3. Return max of (pick, notpick).
+
+import java.util.*;
+public class Solution{
+    static int knapsack(int[] weight, int[] value, int n, int maxWeight) {
+        return helper(n-1, maxWeight, weight, value);
+    }
+    private static int helper(int i, int W, int[] wt, int[] val){
+        //base
+        if(i == 0){
+            if( wt[0] <= W) return val[0];
+            else return 0;
+        }
+        
+        int notpick = helper(i-1, W, wt, val);
+        int pick = Integer.MIN_VALUE;
+        if(wt[i] <= W) pick = val[i] + helper(i-1, W-wt[i], wt, val);
+        
+        return Math.max(pick , notpick);
+    }
+}
