@@ -34,6 +34,8 @@ public class Solution{
 
 
 
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                        
 #2. Memo | TC = O(N x W) -no. of states | SC = O(N x W):-dp[][]  +  O(N):-aux stack space 
 
@@ -67,5 +69,34 @@ public class Solution{
         if(wt[i] <= W) pick = val[i] + helper(i-1, W-wt[i], wt, val, dp);
         
         return dp[i][W] = Math.max(pick , notpick);
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#3. Tabulation | TC = O(N x W) to compute these states |  SC= O(N x W) dp[][] space , no aux stack space
+// NOT WORKING - YET TO DEBUG!
+
+import java.util.*;
+public class Solution{
+    // tabu
+    
+    static int knapsack(int[] weight, int[] value, int n, int maxWeight) {
+        int[][] dp = new int[n][maxWeight+1];
+        
+        for(int i =0; i<n ; i++){
+            if(weight[0] <= i) dp[0][i] = value[0];
+            else dp[0][i] = 0;
+        }
+        //bottom up
+        for(int i=1; i<n; i++){
+            for(int wt=0; wt<=maxWeight; wt++){
+                  int notpick = dp[i-1][wt] ; 
+                  int pick = Integer.MIN_VALUE;
+                  if(weight[i] <= wt) pick = value[i] + dp[i-1][wt - weight[i]];
+                  dp[i][wt] = Math.max(pick , notpick);
+           }
+        }
+        return dp[n-1][maxWeight];
     }
 }
