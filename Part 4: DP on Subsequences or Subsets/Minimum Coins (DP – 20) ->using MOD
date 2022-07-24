@@ -75,3 +75,50 @@ public class Solution {
         return dp[i][tar] = Math.min(notpick , pick) % mod;
     }
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#3. Tabulation | TC = O(N x Tar) to compute these states |  SC= O(N x Tar) dp[][] space , no aux stack space
+GIVING ERROR
+
+
+import java.util.*;
+public class Solution {
+    //Tabu
+    static int mod = (int)1e9+7;
+    
+    public static int minimumElements(int num[], int x) {
+        // Write your code here..
+        int n = num.length;
+        
+        int dp[][] = new int[n][x+1];
+        //Initialise base cases
+        // fill first colm with 0
+        for(int i=0; i<n; i++){
+            dp[i][0] = 0;
+        }
+        //initialise first row
+        for(int i=1 ; i<=x; i++){
+            if(i % num[0] == 0){
+                dp[0][i] = x / num[0];
+            }
+            else{
+                dp[0][i] = Integer.MAX_VALUE;
+            }
+        }
+        
+        for(int i=1; i<n; i++){
+            for(int tar=1; tar<=x; tar++){
+                
+                int notpick = 0 + dp[i-1][tar];
+                int pick = Integer.MAX_VALUE;
+                if(num[i] <= tar) pick = 1 + (dp[i][tar - num[i]])%mod ;
+                dp[i][tar] = Math.min(notpick , pick) % mod;
+            }
+        }
+        
+        int ans =  dp[n-1][x];
+        if(ans == 147483633 || ans == 2147483647) return -1;
+        return ans;
+    }
+}
