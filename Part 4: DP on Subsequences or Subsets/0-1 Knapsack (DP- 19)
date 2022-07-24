@@ -4,6 +4,7 @@ VVVV IMP Question -: Given weight and value array for n items, with Knapsack wei
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 #1 Recursion | TC = O(2^N) -for every index we have two possibilities pick and not pick    |    SC= O(N) -> aux stack space 
+=> Gives TLE
 
 Approach:
 1. We focus on two parameters- index, W of Knapsack.
