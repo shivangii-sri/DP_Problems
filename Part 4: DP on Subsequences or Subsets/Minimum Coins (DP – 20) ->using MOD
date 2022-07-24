@@ -36,3 +36,42 @@ public class Solution {
         return Math.min(notpick , pick) % mod;
     }
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                        
+#2. Memoization | TC = O(N x Target) = No. of states    |     SC= O(Target) aux stack space  +  O(N x Target) dp[][] space
+
+
+import java.util.*;
+public class Solution {
+    //memo
+    static int mod = (int)1e9+7;
+    
+    public static int minimumElements(int num[], int x) {
+        // Write your code here..
+        int n = num.length;
+        int dp[][] = new int[n][x+1];
+        for(int[] e : dp){
+            Arrays.fill(e , -1);
+        }
+        int ans =  helper(n-1, x, num, dp);
+        if(ans == 147483633 || ans == 2147483647) return -1;
+        return ans;
+    }
+    // Fucntion to return min count
+    private static int helper(int i, int tar, int[] a, int[][] dp){
+        //base
+        if(i == 0){
+            if(tar % a[0] == 0) return tar/a[0];
+            else return Integer.MAX_VALUE;
+        }
+        if(dp[i][tar] != -1) return dp[i][tar];
+        
+        int notpick = 0 + helper(i-1, tar, a, dp);
+        int pick = Integer.MAX_VALUE;
+        if(a[i] <= tar) pick = (1 + helper(i , tar - a[i] , a, dp)%mod );
+        
+        return dp[i][tar] = Math.min(notpick , pick) % mod;
+    }
+}
