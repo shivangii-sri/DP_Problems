@@ -1,4 +1,4 @@
-Leetcode 518. Coin Change 2
+Leetcode 518. Coin Change 2 - Solution here is of LEETCODE
 
 Question :- You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
 Return the number of combinations that make up that amount. If that amount of money cannot be made up by any combination of the coins, return 0.
@@ -9,28 +9,50 @@ The answer is guaranteed to fit into a signed 32-bit integer.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 #1 Recursion | TC = Exponential - pick and not pick but any no. of times    |    SC= O(Target) -> aux stack space 
 
-
-import java.util.*;
-public class Solution {
-
-	public static long countWaysToMakeChange(int denominations[], int value){
-        //write your code here	
-        int n = denominations.length;
-        return helper(n-1, value, denominations);
-	}
-    private static long helper(int i, int tar, int[] a){
+class Solution {
+    public int change(int amount, int[] coins) {
+         //write your code here	
+        int n = coins.length;
+        return helper(n-1, amount, coins);
+    }    
+     private static int helper(int i, int tar, int[] a){
         //base
         if(i == 0){
             if(tar % a[0] == 0) return 1;
-//             if(tar == 0) return 1; //possible by not picking the item at a[0]
-//             else if(a[0] == tar) return 1;
             else return 0;
-        }
-        
-        long notpick = helper(i-1, tar, a);
-        long pick = 0;
+        }        
+        int notpick = helper(i-1, tar, a);
+        int pick = 0;
         if(a[i] <= tar) pick = helper(i , tar - a[i] , a);
         return pick + notpick;
     }
-	
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                      
+#2. Memoization | TC = O(N x Target) = No. of states    |     SC= O(target) aux stack space  +  O(N x target) dp[][] space
+
+class Solution {
+    public int change(int amount, int[] coins) {
+        //write your code here	
+        int n = coins.length;
+        int dp[][] = new int[n][amount+1];
+        for(int[] x : dp){
+            Arrays.fill(x, -1);
+        }
+        return helper(n-1, amount, coins, dp);
+    }
+    
+     private static int helper(int i, int tar, int[] a, int[][] dp){
+        //base
+        if(i == 0){
+            if(tar % a[0] == 0) return 1;
+            else return 0;
+        }
+         if(dp[i][tar] != -1) return dp[i][tar];
+        
+        int notpick = helper(i-1, tar, a, dp);
+        int pick = 0;
+        if(a[i] <= tar) pick = helper(i , tar - a[i] , a, dp);
+        return dp[i][tar] = pick + notpick;
+    }
 }
