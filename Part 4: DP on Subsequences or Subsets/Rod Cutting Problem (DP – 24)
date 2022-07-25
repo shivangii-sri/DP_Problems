@@ -12,6 +12,8 @@ Code Studio soln below.
 ***********************************************************************************************************************************************************
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+HERE IS THE SET OF MY APPROACH - Almost same, just passing index as n=5, instead of n-1=4 in case of Striver.
+
 #1 Recursion | TC = Exponential bcz we can pick infinite no. of times   |    SC= O(Rod length) -> aux stack space 
 => Gives TLE
 
