@@ -34,3 +34,32 @@ public class Solution {
         return Math.max(pick , notpick);
     }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                        
+#2. Memo | TC = O(N x Len of rod) ->no. of states | SC = O(N x Len of rod):-dp[][]  +  O(Len of rod):-aux stack space 
+
+import java.util.*;
+public class Solution {
+    public static int cutRod(int price[], int n) {
+	// Write your code here.
+        int index = n;
+        int len = n;
+        int dp[][] = new int[n][n+1];
+        for(int[] x : dp){
+            Arrays.fill(x , -1);
+        }
+        return helper(index , len , price, dp);
+    }
+    
+    private static int helper(int i, int len , int[] a, int[][] dp){
+        //base
+       // if(len == 0) return a[i-1]; not working!!!!!! why?
+        if(i == 0) return (len * a[0]);
+        if(dp[i-1][len] != -1) return dp[i-1][len];
+        
+        int notpick = 0 + helper(i-1, len, a, dp);
+        int pick = Integer.MIN_VALUE;
+        if(i <= len) pick = a[i-1] + helper(i, len-i, a, dp);
+        return dp[i-1][len] = Math.max(pick , notpick);
+    }
+}
