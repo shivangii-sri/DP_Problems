@@ -30,3 +30,31 @@ public class Solution {
         return Math.max(pick, notpick);        
     }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                        
+#2. Memo | TC = O(N x W) -no. of states | SC = O(N x W):-dp[][]  +  O(Target):-aux stack space 
+
+import java.util.*;
+public class Solution {
+    public static int unboundedKnapsack(int n, int w, int[] profit, int[] weight) {
+        // Write your code here.
+        int dp[][] = new int[n][w+1];
+        for(int[] x : dp){
+            Arrays.fill(x, -1);
+        }
+        return helper(n-1 , w , profit, weight, dp);
+    }
+    private static int helper(int i, int W, int[] profit, int[] weight, int[][] dp){
+        //base case
+        if(i == 0){
+            return ( (W/weight[0]) * profit[0] ); 
+        }
+        if(dp[i][W] != -1) return dp[i][W];
+        
+        int notpick = helper(i-1, W, profit, weight, dp);
+        int pick = Integer.MIN_VALUE;
+        if(weight[i] <= W) pick = profit[i] + helper(i, W- weight[i], profit, weight, dp);
+        return dp[i][W] = Math.max(pick, notpick);
+        
+    }
+}
