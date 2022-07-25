@@ -56,3 +56,37 @@ class Solution {
         return dp[i][tar] = pick + notpick;
     }
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#3. Tabulation | TC = O(N x target) to compute these states |  SC= O(N x Target) dp[][] space , no aux stack space
+
+
+class Solution {
+    public int change(int amount, int[] coins) {
+         //write your code here	
+        int n = coins.length;
+        int dp[][] = new int[n][amount+1];
+        //Initialise base case
+        
+        for(int tar=0; tar<=amount; tar++){
+            if(tar % coins[0] == 0)
+                dp[0][tar] = 1;
+            else 
+                dp[0][tar] = 0;
+        }
+        
+        //for loops
+        for(int i=1; i<n; i++){
+            for(int tar=0; tar <= amount; tar++){
+                
+                int notpick = dp[i-1][tar];
+                int pick = 0;
+                if(coins[i] <= tar) pick = dp[i][tar- coins[i]];
+                dp[i][tar] = pick + notpick; 
+                
+            }
+        }        
+        return dp[n-1][amount];
+    }
+}
