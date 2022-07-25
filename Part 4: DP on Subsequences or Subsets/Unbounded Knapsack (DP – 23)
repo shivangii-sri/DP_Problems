@@ -1,0 +1,32 @@
+***********************************************************************************************************************************************************
+Unbounded Knapsack = 0/1 Knapsack with infinite supply of items
+
+Follow the Pattern of Knapsack:
+1. Express in (index, wt)
+2. Explore all possibilities
+3. Return max
+
+Code studio soln below.
+***********************************************************************************************************************************************************
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+#1 Recursion | TC = Exponential bcz infinite suppy   |    SC= O(Weight of Knapsack) -> aux stack space 
+=> Gives TLE
+
+import java.util.*;
+public class Solution {
+    public static int unboundedKnapsack(int n, int w, int[] profit, int[] weight) {
+        // Write your code here.
+        return helper(n-1 , w , profit, weight);
+    }
+    private static int helper(int i, int W, int[] profit, int[] weight){
+        //base case
+        if(i == 0){
+            return ( (W/weight[0]) * profit[0] ); 
+        }       
+        int notpick = helper(i-1, W, profit, weight);
+        int pick = Integer.MIN_VALUE;
+        if(weight[i] <= W) pick = profit[i] + helper(i, W- weight[i], profit, weight);
+        return Math.max(pick, notpick);        
+    }
+}
