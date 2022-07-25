@@ -1,0 +1,36 @@
+***********************************************************************************************************************************************************
+Rod cutting problem | Code Studio Problem
+Problem Statement :- Given a rod of length ‘N’ units. The rod can be cut into different sizes and each size has a cost associated with it. 
+Determine the maximum cost obtained by cutting the rod and selling its pieces.
+
+Pattern:-
+1. Express in (index, N=rod length)
+2. Explore all possibilities - pick and not pick
+3. Return max of (pick or not_pick) 
+
+Code Studio soln below.
+***********************************************************************************************************************************************************
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+#1 Recursion | TC = Exponential bcz we can pick infinite no. of times   |    SC= O(Rod length) -> aux stack space 
+=> Gives TLE
+
+import java.util.*;
+public class Solution {
+	  public static int cutRod(int price[], int n) {
+	    // Write your code here.
+        int index = n;
+        int len = n;
+        return helper(index , len , price);
+    }    
+    private static int helper(int i, int len , int[] a){
+        //base
+        // if(len == 0) return a[i-1]; not working!!!!!! why?
+        if(i == 0) return (len * a[0]);
+        
+        int notpick = 0 + helper(i-1, len, a);
+        int pick = Integer.MIN_VALUE;
+        if(i <= len) pick = a[i-1] + helper(i, len-i, a);
+        return Math.max(pick , notpick);
+    }
+}
