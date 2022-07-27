@@ -3,3 +3,31 @@ Rules to Write:
     eg. f(2,5) signifies what is the LCS between str1 [0..2] and str2 [0..5]
 2. Explore all possibilities on that index -: character of s1 and s2 can :-  Match or  Not-Match
 3. Return max length.
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+#1 Recursion 
+==> TC = O(2^n * 2^m) -> Exponential -> for subsequence of s1, we try to match every subsequence of s2. And generating subsequence takes 2^n TC
+ 
+
+
+import java.util.*;
+public class Solution {
+
+	public static int lcs(String s, String t) {
+		//Your code goes here
+        int len1 = s.length();
+        int len2 = t.length();
+        return helper(len1-1 , len2-1, s, t);
+    }
+    
+    private static int helper(int i, int j, String s, String t){
+        if(i<0 || j<0) return 0;
+        
+        //1. Match
+        if(s.charAt(i) == t.charAt(j))
+            return 1 + helper(i-1, j-1, s, t);
+        //2. Not Match
+        return 0 + Math.max(helper(i,j-1, s, t) , helper(i-1,j,s,t));
+    }
+}
