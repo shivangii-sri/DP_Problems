@@ -56,3 +56,41 @@ public class Solution {
         return dp[i][j] = 0 + Math.max(helper(i,j-1,s,t,dp) , helper(i-1,j,s,t,dp));
     }
 }
+
+************* MEMO By Shifting Index -> To be used in Tabulation **********************
+import java.util.*;
+public class Solution {
+
+	public static int lcs(String s, String t) {
+		//Your code goes here
+        int len1 = s.length();
+        int len2 = t.length();
+        int dp[][] = new int[len1+1][len2+1];  ----------------------------------------CHANGE
+        for(int[] x : dp){
+            Arrays.fill(x, -1);
+        }
+        return helper(len1 , len2, s, t, dp);
+    }
+    
+    private static int helper(int i, int j, String s, String t, int[][] dp){
+        if(i== 0 || j == 0) return 0;  -------------------------------------------CHANGE
+        if(dp[i][j] != -1) return dp[i][j];
+        
+        //Match
+        if(s.charAt(i-1) == t.charAt(j-1))  -------------------------------------------CHANGE
+            return dp[i][j] = 1 + helper(i-1, j-1, s, t, dp);
+        //Not Match
+        return dp[i][j] = 0 + Math.max(helper(i,j-1,s,t,dp) , helper(i-1,j,s,t,dp));
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#3. Tabulation | TC = O(N x K) to compute these states |  SC= O(M x N) dp[][] space , no aux stack space
+
+Tabulation Approach:
+1. Copy the base case
+2. Loop i,j
+3. Copy Recursion logic
+
+
+
