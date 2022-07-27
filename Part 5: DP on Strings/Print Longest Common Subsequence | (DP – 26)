@@ -1,9 +1,6 @@
 NOTE (IMP) : 
 1. There's no link to solve this q separately. 
-2. For practice, we will have to use the link of the q "Longest common subsequence" and we can verify there, if our code is working or not. 
-3. For solving this, we need DP Array. 
-4. So, as of right now, I dont know how to solve this q by recursion only. 
-5. Here, I have used the tabulation code of the q "Longest common subsequence" and added some extra logic in it to print "LCS".
+2. For practice, we will have to use the link of the q "Longest common subsequence" and we can verify there, if our code is working or not. .
 
 LeetCode Link : https://leetcode.com/problems/longest-common-subsequence/
 
