@@ -1,5 +1,5 @@
 Rules to Write:
 1. Express in terms of (index1, index2).
     eg. f(2,5) signifies what is the LCS between str1 [0..2] and str2 [0..5]
-2. Explore all possibilities on tht index
+2. Explore all possibilities on that index -: character of s1 and s2 can :-  Match or  Not-Match
 3. Return max length.
