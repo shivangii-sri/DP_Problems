@@ -1,6 +1,7 @@
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-Question : Input  : s1 = "adebc" , s2 = "dcadb"   ----->   Output : 3
-Solution Explain: Both the strings contain a common subsequence 'adb', which is the longest common subsequence with length 3. 
+Question : Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0.
+Input  : s1 = "adebc" , s2 = "dcadb"   ----->   Output : 3
+Explain: Both the strings contain a common subsequence 'adb', which is the longest common subsequence with length 3. 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 Rules to Write:
 1. Express in terms of (index1, index2).
