@@ -8,7 +8,7 @@ Rules to Write:
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 #1 Recursion 
 ==> TC = O(2^n * 2^m) -> Exponential -> for subsequence of s1, we try to match every subsequence of s2. And generating subsequence takes 2^n TC
- 
+==> SC = O(n + m) -> Because we did alternate deletes, so there can be n deletes from s1 and m deletes from s2. (for s1="ab", s2="cd")
 
 import java.util.*;
 public class Solution {
@@ -31,8 +31,7 @@ public class Solution {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                       
-#2. Memoization | TC = O(Len1 x Len2) = No. of states
-
+#2. Memoization | TC = O(Len1 x Len2) = No. of states | SC = O(n+m) aux stack space + O(n * m) dp[][] space
 
 import java.util.*;
 public class Solution {
