@@ -10,17 +10,14 @@ Rules to Write:
 ==> TC = O(2^n * 2^m) -> Exponential -> for subsequence of s1, we try to match every subsequence of s2. And generating subsequence takes 2^n TC
  
 
-
 import java.util.*;
 public class Solution {
-
 	public static int lcs(String s, String t) {
 		//Your code goes here
         int len1 = s.length();
         int len2 = t.length();
         return helper(len1-1 , len2-1, s, t);
-    }
-    
+    }    
     private static int helper(int i, int j, String s, String t){
         if(i<0 || j<0) return 0;
         
@@ -29,5 +26,34 @@ public class Solution {
             return 1 + helper(i-1, j-1, s, t);
         //2. Not Match
         return 0 + Math.max(helper(i,j-1, s, t) , helper(i-1,j,s,t));
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                       
+#2. Memoization | TC = O(Len1 x Len2) = No. of states
+
+
+import java.util.*;
+public class Solution {
+    public static int lcs(String s, String t) {
+	//Your code goes here
+        int len1 = s.length();
+        int len2 = t.length();
+        int dp[][] = new int[len1][len2];
+        for(int[] x : dp){
+            Arrays.fill(x, -1);
+        }
+        return helper(len1-1 , len2-1, s, t, dp);
+    }    
+    private static int helper(int i, int j, String s, String t, int[][] dp){
+        if(i<0 || j<0) return 0;
+        if(dp[i][j] != -1) return dp[i][j];
+        
+        //Match
+        if(s.charAt(i) == t.charAt(j))
+            return dp[i][j] = 1 + helper(i-1, j-1, s, t, dp);
+        //Not Match
+        return dp[i][j] = 0 + Math.max(helper(i,j-1,s,t,dp) , helper(i-1,j,s,t,dp));
     }
 }
