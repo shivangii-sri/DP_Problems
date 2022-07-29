@@ -1,0 +1,60 @@
+************************************************************************************************************************************************************
+Interesting - 
+We solve Longest Palindromic Subsequence using -> Longest Common Subsequence
+We solve Min Indertions to make string palindrome by -> Longest Palindromic Subsequence
+
+Approach:
+1. To find min insertions to make a string palindrome, we find what is the longest palindromic subsequence in it.
+2. So that, we can keep longest palindromic subsequence intact, and we have to return only (string length - longest palindromic subseq length) insertions!
+
+Eg. Given string = "abcaba"
+Longest Palindromic Subsequence = "ababa" whose length = 5
+So no. of insertions = 6 - 5 = 1 as "ab-cc-aba" 
+
+
+Code Studio Solution below : 
+
+************************************************************************************************************************************************************
+
+#Tabulation Code
+
+import java.util.*;
+public class Solution {
+    public static int minInsertion(String str) {
+    	// Write your code here.
+        return str.length() - longestPalindromeSubseq(str);
+    }
+    public static int longestPalindromeSubseq(String s) {
+        int n = s.length();        
+        StringBuilder t = new StringBuilder(s);
+        String s2 = t.reverse().toString();
+        
+        return lcs( s , s2);
+        
+    }
+    //Using Tabulation code of LCS
+    public static int lcs(String s, String t) {
+        //Your code goes here
+        int len1 = s.length();
+        int len2 = t.length();
+        int dp[][] = new int[len1+1][len2+1];
+      
+        //1. Initialise
+        for(int i=0; i<=len1; i++) dp[i][0] = 0;
+        for(int j=0; j<=len2; j++) dp[0][j] = 0;
+        
+        //2. For loop
+        for(int i=1; i<=len1 ; i++){
+            for(int j=1; j<=len2; j++){
+                
+                //3. Copy recurrence
+               //Match
+                if(s.charAt(i-1) == t.charAt(j-1))
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                //Not Match
+                else dp[i][j] = 0 + Math.max( dp[i][j-1] , dp[i-1][j] ); //----------------------------------ELSE                    
+            }
+        }       
+        return dp[len1][len2];
+    }
+}
