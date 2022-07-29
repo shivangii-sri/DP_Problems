@@ -1,0 +1,88 @@
+Leetcode link : https://leetcode.com/problems/longest-palindromic-subsequence/
+
+Note : 
+1. Question is similar to LCS (Longest Common Subsequence) entirely. 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+#1 Recursion 
+==> TC = O(2^n * 2^m) -> Exponential -> for subsequence of s1, we try to match every subsequence of s2.
+==> SC = O(n + m) -> Because we did alternate deletes, so there can be n deletes from s1 and m deletes from s2. (for s1="ab", s2="cd")
+
+class Solution {
+    public int longestPalindromeSubseq(String s) {
+        int n = s.length();
+        StringBuilder t = new StringBuilder(s);
+        String s2 = t.reverse().toString();
+        return helper(n-1, n-1, s, s2);
+        
+    }
+    private static int helper(int i, int j, String s1, String s2){
+        if(i<0 || j<0) return 0;
+        
+        //match
+        if(s1.charAt(i) == s2.charAt(j))
+            return 1 + helper(i-1, j-1, s1, s2);
+        //not match
+        return 0 + Math.max( helper(i,j-1, s1, s2) , helper(i-1,j,s1,s2));
+        
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                       
+#2. Memoization | TC = O(Len1 x Len2) = No. of states | SC = O(n+m) aux stack space + O(n * m) dp[][] space
+
+class Solution {
+    public int longestPalindromeSubseq(String s) {
+        int n = s.length();
+        StringBuilder t = new StringBuilder(s);
+        String s2 = t.reverse().toString();
+        
+        int dp[][] = new int[n][n];
+        for(int[] x : dp){
+            Arrays.fill(x, -1);
+        }
+        return helper(n-1, n-1, s, s2, dp);
+        
+    }
+    private static int helper(int i, int j, String s1, String s2, int[][] dp){
+        if(i<0 || j<0) return 0;
+        if(dp[i][j] != -1) return dp[i][j];
+        
+        //match
+        if(s1.charAt(i) == s2.charAt(j))
+            return dp[i][j] = 1 + helper(i-1, j-1, s1, s2, dp);
+        //not match
+        return dp[i][j] = 0 + Math.max( helper(i,j-1, s1, s2, dp) , helper(i-1,j,s1,s2,dp));
+        
+    }
+}
+
+************ MEMO By Shifting Index -> To be used in Tabulation **********************
+class Solution {
+    public int longestPalindromeSubseq(String s) {
+        int n = s.length();
+        
+        StringBuilder t = new StringBuilder(s);
+        String s2 = t.reverse().toString();
+        
+        int dp[][] = new int[n+1][n+1];
+        for(int[] x : dp){
+            Arrays.fill(x, -1);
+        }
+        return helper(n, n, s, s2, dp);
+        
+    }
+    private static int helper(int i, int j, String s1, String s2, int[][] dp){
+        if(i==0 || j==0) return 0;
+        if(dp[i][j] != -1) return dp[i][j];
+        
+        //match
+        if(s1.charAt(i-1) == s2.charAt(j-1))
+            return dp[i][j] = 1 + helper(i-1, j-1, s1, s2, dp);
+        //not match
+        return dp[i][j] = 0 + Math.max( helper(i,j-1, s1, s2, dp) , helper(i-1,j,s1,s2,dp));
+        
+    }
+}
+
+
