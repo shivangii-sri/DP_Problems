@@ -1,0 +1,55 @@
+************************************************************************************************************************************************************
+Interesting - 
+We solve Minimum Insertions-deletions to Convert String str into ptr -> Using -> Longest Common Subsequence
+
+Approach:
+1. To find min insertions or deletions in string str, we find what is the longest common subsequence between str and ptr, this length is to be left untouched.
+2. Now, we know 
+  a. No. of deletions = str length - lcs length
+  b. No. of insertions = ptr length - lcs length
+3. So we return str length + ptr length - (2 * lcs length)
+
+Eg. Given str = "abcd" ptr = "anc"
+Longest Common Subsequence = "ac" whose length = 2
+No. of deletions = 4 - 2 = 2
+No. of insertions = 3 - 2 = 1 
+Total no. of min operations = 2 + 1 = 3
+
+
+Code Studio Solution below : 
+
+************************************************************************************************************************************************************
+
+#Tabulation Code
+
+public class Solution {
+    public static int canYouMake(String str, String ptr) {
+        // Write your code here.
+        return str.length() + ptr.length() -2*lcs(str, ptr);
+    }
+      public static int lcs(String s, String t) {
+        //Your code goes here
+        int len1 = s.length();
+        int len2 = t.length();
+        int dp[][] = new int[len1+1][len2+1];
+      
+        //1. Initialise
+        for(int i=0; i<=len1; i++) dp[i][0] = 0;
+        for(int j=0; j<=len2; j++) dp[0][j] = 0;
+        
+        //2. For loop
+        for(int i=1; i<=len1 ; i++){
+            for(int j=1; j<=len2; j++){
+                
+                //3. Copy recurrence
+               //Match
+                if(s.charAt(i-1) == t.charAt(j-1))
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                //Not Match
+                else dp[i][j] = 0 + Math.max( dp[i][j-1] , dp[i-1][j] ); //----------------------------------ELSE                    
+            }
+        }       
+        return dp[len1][len2];
+    }
+    
+}
