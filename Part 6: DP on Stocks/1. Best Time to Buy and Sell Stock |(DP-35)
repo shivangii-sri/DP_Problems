@@ -1,0 +1,45 @@
+Leetcode link : https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+
+
+Note: 
+1. This problem is of DP but I havent found proper dp solution for it. Even striver solved with iterative. 
+2. I want to do it in classis 4 method dp way. Recursion, Memo, Tabu and Space Opti.
+3. Currently, Just documenting the ietrative approach, but once i get more clarity, I will do the classic 4 methods. 
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Striver DP Solution : 
+class Solution {
+    public int maxProfit(int[] prices) {
+        
+        int mini = prices[0];
+        int max = 0;
+        for(int i=1; i<prices.length; i++){
+            int cost = prices[i] - mini;
+            max = Math.max(max, cost);
+            mini = Math.min(mini , prices[i]);
+        }
+        
+        return max;
+    }
+}
+
+
+--------------------- Method 2- Did earlier-----------------------------
+class Solution {
+    public int maxProfit(int[] prices) {       
+        int minPrice = Integer.MAX_VALUE;
+        int maxProfit = 0;
+        
+        for(int i=0; i<prices.length; i++){
+            if(prices[i]<minPrice) {
+              minPrice = prices[i];
+            }
+            else {
+                maxProfit = Math.max(maxProfit, prices[i]-minPrice);
+            }
+        }
+        return maxProfit;
+    }
+}
