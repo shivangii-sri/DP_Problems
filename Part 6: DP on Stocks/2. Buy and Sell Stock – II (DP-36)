@@ -115,3 +115,44 @@ class Solution {
         return dp[0][1];
     }
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#4. Space Optimization | TC = O(N x 2) = No. of states | SC = O(1) consatnt space for 2 size ahead[]
+
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        //if buy==1 => buy , if buy==0 => not buy
+        //initially we have the liberty to buy
+        int n = prices.length;
+        int ahead[] = new int[2]; // n+1 to Initialise dp[i==a.length]=0     
+        
+        //1. Initialisation
+        ahead[0] = 0;
+        ahead[1] = 0;
+        
+        for(int i=prices.length-1; i>=0 ; i--){
+            
+            int cur[] = new int[2];
+            
+            for(int buy = 0; buy<=1; buy++){
+                int profit=0;
+                if(buy == 1){
+                    int take = -prices[i] + ahead[0];
+                    int notTake = 0 + ahead[1]; 
+                    profit = Math.max(take , notTake);
+                }
+                else{
+                    int sell = prices[i] + ahead[1];
+                    int notsell = 0 + ahead[0];
+                    profit = Math.max(sell , notsell);
+                }
+                cur[buy] = profit;   
+            }            
+            ahead = cur;
+        }
+              
+        return ahead[1];
+    }
+}
