@@ -116,7 +116,7 @@ class Solution {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#4. Space Optimization | TC = O(N x 2) = No. of states | SC = O(1) consatnt space for 2 size ahead[]
+#4. Space Optimization | TC = O(2 x 3) = No. of states | SC = O(1) consatnt space for after[2][3]
 NOTE : Space Optimize is to reduce dp array by one dimension.
 1-D -> variable
 2-D -> 1-D
