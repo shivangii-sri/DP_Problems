@@ -1,0 +1,73 @@
+Leet Link : https://leetcode.com/problems/shortest-common-supersequence/
+
+Approach:
+1. Use LCS to find the length of longest common subsequence. 
+2. Length of Shortest common subseq = s1 length + s2 length - LCS length
+
+=> Below is the code to print the Shortest Common Subsequence
+3. Bascially, we are using tabulation code of LCS and then, using the code of printing LCS, getting the result.
+
+
+
+//Tabulation Code - Using Tabu of LCS - Filling of dp table and printing LCS
+
+class Solution {
+    public String shortestCommonSupersequence(String s, String t) {
+        //Tabulation code for LCS -Longest common subsequence
+        int len1 = s.length();
+        int len2 = t.length();
+        int dp[][] = new int[len1+1][len2+1];
+      
+        //1. Initialise
+        for(int i=0; i<=len1; i++) dp[i][0] = 0;
+        for(int j=0; j<=len2; j++) dp[0][j] = 0;
+        
+        //2. For loop
+        for(int i=1; i<=len1 ; i++){
+            for(int j=1; j<=len2; j++){
+                
+                //3. Copy recurrence
+               //Match
+                if(s.charAt(i-1) == t.charAt(j-1))
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                //Not Match
+                else dp[i][j] = 0 + Math.max( dp[i][j-1] , dp[i-1][j] ); //----------------------------------ELSE                    
+            }
+        }   
+        //DP table for LCS has been computed. Now we take print LCS code.
+        
+        String ans="";
+        int i = len1;
+        int j = len2;
+        
+        while(i>0 && j>0){
+            if(s.charAt(i-1) == t.charAt(j-1)){
+                ans += s.charAt(i-1);
+                i--;
+                j--;
+            }
+            else if( dp[i-1][j] > dp[i][j-1] ){
+                ans += s.charAt(i-1); // i is cut off- so add ith char
+                i--;
+            }
+            else{
+                ans += t.charAt(j-1);  // j is cut off- so add jth char
+                j--;
+            }
+            
+        }
+        while(i>0){
+            ans += s.charAt(i-1);
+            i--;
+        }
+        while(j>0){
+            ans += t.charAt(j-1);
+            j--;
+        }        
+        
+      
+        StringBuilder res = new StringBuilder();  
+        res.append(ans);
+        return res.reverse().toString(); //reverse the ans, because we travelled the dp table during printing code from nth index.
+    }
+}
