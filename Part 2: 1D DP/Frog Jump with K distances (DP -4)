@@ -1,5 +1,7 @@
+Leetcode link : https://leetcode.com/problems/jump-game-vi/
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#1 Recursion | TC =O(2^N)  ,  SC = O(N) - recursive stack space | TOP-DOWN Approach
+#1 Recursion | TC =O(2^N)  ,  SC = O(N) - recursive stack space | TOP-DOWN Approach --giving TLE
 
 class Solution {
     public int maxResult(int[] nums, int k) {
@@ -23,7 +25,8 @@ class Solution {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#2. Memoization | TC = O(N) | SC = O(2N)- stack space and dp array
+#2. Memoization | TC = O(N) | SC = O(2N)- stack space and dp array --giving TLE
+
 
 class Solution {
     public int maxResult(int[] nums, int k) {
