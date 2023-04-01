@@ -62,4 +62,64 @@ public class Solution {
     } 
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#3. Tabulation | TC = O(N x K) to compute these states |  SC= O(N x k) dp[][] space , no aux stack space
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int findWays(int num[], int tar) {
+        // return the count of subset sum equal k
+        int n = num.length;
+        int dp[][] = new int[n][tar+1];
+        //Initialisation
+        for(int target = 0; target<=tar; target++){
+            if(target == 0 && num[0] == 0) dp[0][target] = 2;
+            else if(target == 0 || target == num[0]) dp[0][target] = 1; 
+        }
+
+        for(int i = 1; i<n; i++){
+            for(int target=0; target<=tar; target++){
+                int notpick = dp[i-1][target]; 
+                //pick
+                int pick = 0;
+                if(num[i] <= target) pick = dp[i-1][target-num[i]]; 
+                dp[i][target]= pick + notpick;
+            }
+        }
+        return dp[n-1][tar];
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#4. Space Optimization | TC = O(N x K) => no. of states | SC = O(K)-> space of prev[] of size K+1
+==> All test cases passed!
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int findWays(int num[], int tar) {
+        // return the count of subset sum equal k
+        int n = num.length;
+        int prev[] = new int[tar+1];
+        //Initialisation
+        for(int target = 0; target<=tar; target++){
+            if(target == 0 && num[0] == 0) prev[target] = 2;
+            else if(target == 0 || target == num[0]) prev[target] = 1; 
+        }
+
+        for(int i = 1; i<n; i++){
+            int cur[] = new int[tar+1];
+            for(int target=0; target<=tar; target++){
+                int notpick = prev[target]; 
+                //pick
+                int pick = 0;
+                if(num[i] <= target) pick = prev[target-num[i]]; 
+                cur[target]= pick + notpick;
+            }
+            prev = cur;
+        }
+        return prev[tar];
+    }
+}
 
