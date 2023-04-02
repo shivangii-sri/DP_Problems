@@ -37,6 +37,30 @@ public class Solution {
     }
 }
 
+
+//Recursion
+//TC = O(2^n)
+//SC = O(n) rod length
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		// Write your code here.
+		return helper(n, n, price );
+	}
+	public static int helper(int i, int size, int[] price){
+		if(i == 1){
+			if(size%i == 0) return price[0] * size/(i); //for understanding
+			//return price[0] * size;
+		}
+		//notpick
+		int notpick = 0 + helper(i-1, size, price);
+		//pick 
+		int pick = Integer.MIN_VALUE;
+		if(i <= size) pick = price[i-1] + helper(i, size-(i), price);
+
+		return Math.max(pick , notpick);
+	}
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                        
 #2. Memo | TC = O(N x Len of rod) ->no. of states | SC = O(N x Len of rod):-dp[][]  +  O(Len of rod):-aux stack space 
 
@@ -64,4 +88,33 @@ public class Solution {
         if(i <= len) pick = a[i-1] + helper(i, len-i, a, dp);
         return dp[i-1][len] = Math.max(pick , notpick);
     }
+}
+
+//memo
+//TC = O(n x len of rod) 
+//SC = O(len of rod) stack space + O(n x len of rod) dp[][]
+import java.util.*;
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		// Write your code here.
+		int dp[][] = new int[n+1][n+1];
+		for(int[] x : dp){
+			Arrays.fill(x , -1);
+		}
+		return helper(n, n, price, dp);
+	}
+	public static int helper(int i, int len, int[] price, int[][] dp){
+		if(i == 1){
+			if(len%i == 0) return price[0] * len/(i);
+			//return price[0] * size;
+		}
+		if(dp[i][len] != -1) return dp[i][len];
+		//notpick
+		int notpick = 0 + helper(i-1, len, price, dp);
+		//pick 
+		int pick = Integer.MIN_VALUE;
+		if(i <= len) pick = price[i-1] + helper(i, len-(i), price, dp);
+
+		return dp[i][len] = Math.max(pick , notpick);
+	}
 }
