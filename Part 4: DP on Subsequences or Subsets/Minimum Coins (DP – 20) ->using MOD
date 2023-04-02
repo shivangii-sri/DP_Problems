@@ -103,3 +103,34 @@ class Solution {
         return (ans == (int)Math.pow(10,9) ) ? -1 : ans;        
     }
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#4. Space | TC = O(N x Tar) to compute these states |  sc = O(target) dp array space
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        
+        int prev[] = new int[amount+1];
+        //Initialisation
+        for(int target=0; target<=amount; target++){
+            if(target%coins[0] == 0) prev[target] = target/coins[0];
+            else prev[target] = (int)Math.pow(10,9);
+        }
+        
+        for(int i=1; i<n; i++){
+            int cur[] = new int[amount+1];
+            for(int target=0; target<=amount; target++){
+                //not pick
+                int notpick = 0 + prev[target];
+                int pick = (int)Math.pow(10,9);
+                if(coins[i] <= target) pick = 1 + cur[target-coins[i]]; 
+
+                cur[target] = Math.min(pick , notpick);
+            }
+            prev = cur;
+        }        
+        int ans = prev[amount] ; 
+        return (ans == (int)Math.pow(10,9) ) ? -1 : ans;        
+    }
+}
