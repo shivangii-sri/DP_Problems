@@ -29,31 +29,33 @@ class Solution {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                      
-#2. Memoization | TC = O(N x Target) = No. of states    |     SC= O(target) aux stack space  +  O(N x target) dp[][] space
+#2. Memoization | TC = O(N x Amount) = No. of states    |    //SC = O(n) stack space + O(n x amount) dp array space
 
 class Solution {
     public int change(int amount, int[] coins) {
-        //write your code here	
         int n = coins.length;
         int dp[][] = new int[n][amount+1];
         for(int[] x : dp){
-            Arrays.fill(x, -1);
+            Arrays.fill(x , -1);
         }
         return helper(n-1, amount, coins, dp);
     }
-    
-     private static int helper(int i, int tar, int[] a, int[][] dp){
-        //base
+
+    //no. of ways to make amount from infinite supply of coins
+    public int helper(int i, int target, int[] coins, int[][]dp){
         if(i == 0){
-            if(tar % a[0] == 0) return 1;
+            if(target%coins[i] == 0) return 1;
             else return 0;
         }
-         if(dp[i][tar] != -1) return dp[i][tar];
+        if(dp[i][target] != -1) return dp[i][target];
         
-        int notpick = helper(i-1, tar, a, dp);
-        int pick = 0;
-        if(a[i] <= tar) pick = helper(i , tar - a[i] , a, dp);
-        return dp[i][tar] = pick + notpick;
+        //not pick
+        int notpick = helper(i-1, target, coins, dp);
+        //pick
+        int pick = 0; //no. of ways
+        if(coins[i] <= target) pick = helper(i, target - coins[i], coins, dp); 
+        
+        return dp[i][target] = pick + notpick;
     }
 }
 
@@ -62,31 +64,62 @@ class Solution {
 #3. Tabulation | TC = O(N x target) to compute these states |  SC= O(N x Target) dp[][] space , no aux stack space
 
 
+//tabu
+//TC = O(n x amount)
+//SC = O(n x amount) dp array space
+
 class Solution {
     public int change(int amount, int[] coins) {
-         //write your code here	
         int n = coins.length;
         int dp[][] = new int[n][amount+1];
-        //Initialise base case
-        
-        for(int tar=0; tar<=amount; tar++){
-            if(tar % coins[0] == 0)
-                dp[0][tar] = 1;
-            else 
-                dp[0][tar] = 0;
+        //Initialisation
+        for(int target=0; target<= amount; target++){
+            if(target % coins[0] == 0) dp[0][target] = 1;
+            else dp[0][target] = 0;
         }
         
-        //for loops
         for(int i=1; i<n; i++){
-            for(int tar=0; tar <= amount; tar++){
-                
-                int notpick = dp[i-1][tar];
-                int pick = 0;
-                if(coins[i] <= tar) pick = dp[i][tar- coins[i]];
-                dp[i][tar] = pick + notpick; 
-                
+            for(int target=0; target<=amount; target++){
+                //not pick
+                int notpick = dp[i-1][target]; 
+                //pick
+                int pick = 0; //no. of ways
+                if(coins[i] <= target) pick = dp[i][target - coins[i]]; 
+
+                dp[i][target] = pick + notpick;                
             }
-        }        
+        }
         return dp[n-1][amount];
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#3. Tabulation | TC = O(N x amount) to compute these states |  SC = O(amount) dp array space
+
+class Solution {
+    public int change(int amount, int[] coins) {
+        int n = coins.length;
+        int prev[] = new int[amount+1];
+        //Initialisation
+        for(int target=0; target<= amount; target++){
+            if(target % coins[0] == 0) prev[target] = 1;
+            else prev[target] = 0;
+        }
+        
+        for(int i=1; i<n; i++){
+            int cur[] = new int[amount + 1];
+
+            for(int target=0; target<=amount; target++){
+                //not pick
+                int notpick = prev[target]; 
+                //pick
+                int pick = 0; //no. of ways
+                if(coins[i] <= target) pick = cur[target - coins[i]]; 
+
+                cur[target] = pick + notpick;                
+            }
+            prev = cur;
+        }
+        return prev[amount];
     }
 }
