@@ -7,7 +7,7 @@ The answer is guaranteed to fit into a signed 32-bit integer.
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
-#1 Recursion | TC = Exponential - pick and not pick but any no. of times    |    SC= O(Target) -> aux stack space 
+#1 Recursion | TC = Exponential - pick and not pick but any no. of times    |    SC= O(Target) -> aux stack space bcz we are picking same index as infinite supply
 
 class Solution {
     public int change(int amount, int[] coins) {
@@ -29,7 +29,7 @@ class Solution {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                      
-#2. Memoization | TC = O(N x Amount) = No. of states    |    //SC = O(n) stack space + O(n x amount) dp array space
+#2. Memoization | TC = O(N x Amount) = No. of states    |    //SC = O(Target) stack space bcz we are picking same index as infinite supply + O(n x amount) for dp[][]
 
 class Solution {
     public int change(int amount, int[] coins) {
