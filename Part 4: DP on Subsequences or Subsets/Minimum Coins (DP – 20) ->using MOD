@@ -45,89 +45,61 @@ public class Solution {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                                         
-#2. Memoization | TC = O(N x Target) = No. of states    |     SC= O(Target) aux stack space  +  O(N x Target) dp[][] space
-
-Leetcode gives so much clarity on Problem and MOD. Code studio is way complicated unnecessary just like their own their testcases.
+#2. Memoization | TC = O(N x Target) = No. of states    |    SC = O(n) aux stack space  + O(n x target)
 
 class Solution {
-    static int mod = (int)1e9+7;
-    
     public int coinChange(int[] coins, int amount) {
         int n = coins.length;
         int dp[][] = new int[n][amount+1];
-        for(int[] e : dp){
-            Arrays.fill(e , -1);
-        }
-        int ans =  helper(n-1, amount, coins, dp);
-        //if(ans >= 147483633) return -1; //doesnt work
-        if(ans >= 10001) return -1;  //SInce amount max value is 10^4, so no. of coins cannot exceed 10^4 //works upto values like 10^9
-        return ans; 
+        for(int[] x : dp){
+            Arrays.fill(x , -1);
+        }        
+        int ans = helper(n - 1, amount, coins, dp) ; 
+        return (ans == (int)Math.pow(10,9) ) ? -1 : ans;        
     }
-    // Fucntion to return min count
-    private static int helper(int i, int tar, int[] a, int[][] dp){
-        //base
+    
+    //helper to return min count of coins
+    public int helper(int i, int target, int[] coins, int[][] dp){
+        //if(target == 0) return 0; //not necessary!
         if(i == 0){
-            if(tar % a[0] == 0) return tar/a[0];
-            else return Integer.MAX_VALUE;
+            if(target%coins[0] == 0) return target/coins[0];
+            else return (int)Math.pow(10,9);
         }
-        if(dp[i][tar] != -1) return dp[i][tar];
+        if(dp[i][target] != -1) return dp[i][target];
         
-        int notpick = 0 + helper(i-1, tar, a, dp);
-        int pick = Integer.MAX_VALUE;
-        if(a[i] <= tar) pick = (1 + helper(i , tar - a[i] , a, dp)%mod );
+        //not pick
+        int notpick = 0 + helper(i-1, target, coins, dp);
+        int pick = (int)Math.pow(10,9);
+        if(coins[i] <= target) pick = 1 + helper(i, target - coins[i], coins, dp);
         
-        return dp[i][tar] = Math.min(notpick , pick) % mod;
+        return dp[i][target] = Math.min(pick , notpick);
     }
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#3. Tabulation | TC = O(N x Tar) to compute these states |  SC= O(N x Tar) dp[][] space , no aux stack space
-GIVING ERROR
+#3. Tabulation | TC = O(N x Tar) to compute these states |  SC= O(N x Tar) dp[][] space , no aux stack spac
 
 class Solution {
-    static int mod = (int)1e9+7;
-    
     public int coinChange(int[] coins, int amount) {
-          // Write your code here..
         int n = coins.length;
-        
         int dp[][] = new int[n][amount+1];
-        //Initialise base cases
-        // fill first column with 0
-        for(int i=0; i<n; i++){
-            dp[i][0] = 0;
-        }
-        //initialise first row
-        for(int i=1 ; i<=amount; i++){
-            if(i % coins[0] == 0){
-                dp[0][i] = amount / coins[0];
-            }
-            else{
-                dp[0][i] = Integer.MAX_VALUE;
-            }
+        //Initialisation
+        for(int target=0; target<=amount; target++){
+            if(target%coins[0] == 0) dp[0][target] = target/coins[0];
+            else dp[0][target] = (int)Math.pow(10,9);
         }
         
         for(int i=1; i<n; i++){
-            for(int tar=1; tar<=amount; tar++){
-                
-                int notpick = 0 + dp[i-1][tar];
-                int pick = Integer.MAX_VALUE;
-                if(coins[i] <= tar) pick = 1 + (dp[i][tar - coins[i]])%mod ;
-                dp[i][tar] = Math.min(notpick , pick) % mod;
+            for(int target=0; target<=amount; target++){
+                //not pick
+                int notpick = 0 + dp[i-1][target];
+                int pick = (int)Math.pow(10,9);
+                if(coins[i] <= target) pick = 1 + dp[i][target-coins[i]]; 
+
+                dp[i][target] = Math.min(pick , notpick);
             }
-        }
-        //print dp table ------to debug!
-        for(int i = 0; i<n; i++){
-            for(int j=0; j<amount; j++){
-                System.out.print(dp[i][j] + " ");
-            }
-            System.out.println();
-        }
-        
-        int ans =  dp[n-1][amount];
-        if(ans >= 10001) return -1;
-        return ans;
+        }        
+        int ans = dp[n-1][amount] ; 
+        return (ans == (int)Math.pow(10,9) ) ? -1 : ans;        
     }
-    
 }
