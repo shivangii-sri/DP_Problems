@@ -31,6 +31,33 @@ public class Solution {
     }
 }
 
+//recursion
+//TC = O(22^n)
+//SC = O(weight) stack space
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int unboundedKnapsack(int n, int w, int[] profit, int[] weight) {
+        // Write your code here.
+        return helper(n-1, w, profit, weight);
+    }
+
+    public static int helper(int i, int w, int[] profit, int[] weight){
+        if(i == 0){
+            if(weight[0] <= w) return profit[0] * (w/weight[0]);
+            else return 0;
+        }
+        //notpick
+        int notpick = 0 + helper(i-1, w, profit, weight);
+        //pick
+        int pick = 0;
+        if(weight[i] <= w) pick = profit[i] + helper(i, w - weight[i], profit, weight);
+
+        return Math.max(pick , notpick);
+    }
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                        
 #2. Memo | TC = O(N x W) -no. of states | SC = O(N x W):-dp[][]  +  O(Target):-aux stack space 
 
@@ -58,3 +85,108 @@ public class Solution {
         
     }
 }
+
+//memo
+//TC = O(n x w)
+//SC = O(weight) stack space + O(n x w) dp[][]
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int unboundedKnapsack(int n, int w, int[] profit, int[] weight) {
+        // Write your code here.
+        int dp[][] = new int[n][w+1];
+        for(int[] x : dp){
+            Arrays.fill(x , -1);
+        }
+        return helper(n-1, w, profit, weight, dp);
+    }
+
+    public static int helper(int i, int w, int[] profit, int[] weight, int[][] dp){
+        if(i == 0){
+            if(weight[0] <= w) return profit[0] * (w/weight[0]);
+            else return 0;
+        }
+        if(dp[i][w] != -1) return dp[i][w];
+
+        //notpick
+        int notpick = 0 + helper(i-1, w, profit, weight, dp);
+        //pick
+        int pick = 0;
+        if(weight[i] <= w) pick = profit[i] + helper(i, w - weight[i], profit, weight, dp);
+
+        return dp[i][w] = Math.max(pick , notpick);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                        
+#3. Tabulation 
+
+//tabu
+//TC = O(n x w)
+//SC = O(n x w) dp[][]
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int unboundedKnapsack(int n, int w, int[] profit, int[] weight) {
+        // Write your code here.
+        int dp[][] = new int[n][w+1];
+        //Initialisation
+        for(int wt = 0; wt <= w; wt++){
+            if(weight[0] <= wt) dp[0][wt] = profit[0] * (wt/weight[0]);
+            else dp[0][wt]=0;
+        }
+
+        for(int i=1; i<n; i++){
+            for(int wt = 0; wt<=w; wt++){
+                //notpick
+                int notpick = 0 + dp[i-1][wt]; 
+                //pick
+                int pick = 0;
+                if(weight[i] <= wt) pick = profit[i] + dp[i][wt-weight[i]] ;
+
+                dp[i][wt] = Math.max(pick , notpick);
+            }
+        }
+        return dp[n-1][w]; 
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                        
+#4. Space Optimization
+//space
+//TC = O(n x w)
+//SC = O(w) dp[]
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int unboundedKnapsack(int n, int w, int[] profit, int[] weight) {
+        // Write your code here.
+        int prev[] = new int[w+1];
+        //Initialisation
+        for(int wt = 0; wt <= w; wt++){
+            if(weight[0] <= wt) prev[wt] = profit[0] * (wt/weight[0]);
+            else prev[wt]=0;
+        }
+
+        for(int i=1; i<n; i++){
+            int cur[] = new int[w+1];
+
+            for(int wt = 0; wt<=w; wt++){
+                //notpick
+                int notpick = 0 + prev[wt]; 
+                //pick
+                int pick = 0;
+                if(weight[i] <= wt) pick = profit[i] + cur[wt-weight[i]] ;
+
+                cur[wt] = Math.max(pick , notpick);
+            }
+            prev = cur;
+        }
+        return prev[w]; 
+    }
+}
+
+
