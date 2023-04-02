@@ -118,3 +118,68 @@ public class Solution {
 		return dp[i][len] = Math.max(pick , notpick);
 	}
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                        
+#3. Tabulation | TC =  O(n x len of rod)  ->no. of states | SC =  O(n x len of rod) dp[][]
+
+//tabu
+//TC = O(n x len of rod) 
+//SC = O(n x len of rod) dp[][]
+import java.util.*;
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		// Write your code here.
+		
+		int dp[][] = new int[n+1][n+1];
+		//Initialisation
+		for(int len = 1; len<=n ; len++){
+			dp[1][len] = price[0] * len;
+		}
+
+		for(int i=2; i<=n; i++){
+			for(int len=1; len<=n; len++){
+				//notpick
+				int notpick = 0 + dp[i-1][len] ; 
+				//pick 
+				int pick = Integer.MIN_VALUE; //or we can put pick = 0 also instead of min value !
+				if(i <= len) pick = price[i-1] + dp[i][len-i]; 
+
+				dp[i][len] = Math.max(pick , notpick);
+			}
+		}
+		return dp[n][n] ; 
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                        
+#4. Space Optimization | TC =  O(n x len of rod)  ->no. of states | SC =  O( len of rod) dp[]
+//space
+//TC = O(n x len of rod) 
+//SC = O(len of rod) dp[]
+import java.util.*;
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		// Write your code here.
+		
+		int prev[] = new int[n+1];
+		//Initialisation
+		for(int len = 1; len<=n ; len++){
+			prev[len] = price[0] * len;
+		}
+
+		for(int i=2; i<=n; i++){
+			int cur[] = new int[n+1];
+			for(int len=1; len<=n; len++){
+				//notpick
+				int notpick = 0 + prev[len] ; 
+				//pick 
+				int pick = 0;
+				if(i <= len) pick = price[i-1] + cur[len-i]; 
+
+				cur[len] = Math.max(pick , notpick);
+			}
+			prev = cur;
+		}
+		return prev[n] ; 
+	}
+}
