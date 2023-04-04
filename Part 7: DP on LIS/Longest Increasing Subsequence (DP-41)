@@ -74,3 +74,34 @@ class Solution {
         return dp[i][prev+1] = Math.max(pick , notpick);
     }
 }
+
+
+----------------------------------------------------------METHOD 2------------------------------------------------------------------------
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+#1 Recursion | | TC = O(2^N) -for every index we have two possibilities pick and not pick    |    SC= O(N) -> aux stack space 
+=> gives TLE due to exponential TC
+
+//recursion
+//TC = O(2^n)
+//SC = O(n) stack space
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        return helper(n-1, Integer.MAX_VALUE, nums); 
+    }
+    public int helper(int i, int cur, int[] nums){
+        if(i == 0){
+            if(nums[0] < cur) return 1;
+            else return 0;
+        }
+        //notpick
+        int notpick = 0 + helper(i-1, cur, nums);
+        //pick
+        int pick = 0;
+        if(nums[i] < cur){
+            pick = 1 +  helper(i-1, nums[i] , nums);
+        }
+        return Math.max(pick , notpick);
+    }
+}
