@@ -75,6 +75,37 @@ class Solution {
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                        
+#2. Tabu | TC = O(N x N) -no. of states | SC = O(N x N):-dp[][]   
+
+//Tabu
+//TC = O(n x n)
+//SC = O(n x n) dp[][]
+
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int dp[][] = new int[n+1][n+1];
+        //Initialisation
+        for(int i=-1; i<=n-1; i++){
+            dp[n][i+1] = 0;
+        }
+
+        for(int i=n-1; i>=0; i--){
+            for(int prevIndex = i-1; prevIndex>=-1; prevIndex--){
+                 //notpick
+                int notpick = 0 + dp[i+1][prevIndex+1]; 
+                //pick
+                int pick = 0; 
+                if( prevIndex == -1 || nums[prevIndex] < nums[i]){
+                    pick = 1 +  dp[i+1][i+1]; //prevIndex so i+1 in 2nd dimension DAD 
+                }
+                dp[i][prevIndex+1] = Math.max(pick , notpick);
+            }
+        }
+        return dp[0][0];   
+    }
+}
 
 ----------------------------------------------------------METHOD 2------------------------------------------------------------------------
 
