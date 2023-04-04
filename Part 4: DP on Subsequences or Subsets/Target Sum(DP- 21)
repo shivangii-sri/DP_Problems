@@ -61,3 +61,27 @@ public class Solution {
         return dp[i][sum] = (pick + notPick) ;
     } 
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#1 Recursion | TC =O(2^n) | SC= O(N) -> stack space will go upto length of array
+
+class Solution {
+    public int findTargetSumWays(int[] nums, int target) {
+        int n = nums.length;
+        return helper(n-1, target, nums);
+    }
+
+    public int helper(int i, int target, int[] nums){
+        if(i == 0){
+            int ans = 0;
+            if(target - nums[0] == 0) ans++;
+            if(target + nums[0] == 0) ans++;
+            return ans;
+        }
+        //add
+        int add = helper(i-1, target + nums[i] , nums);
+        //minus
+        int minus = helper(i-1, target - nums[i] , nums);
+        return add + minus;
+    }
+}
