@@ -101,3 +101,46 @@ class Solution {
         return dp[n1][n2]; 
     }
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+#4. Space Optimization | [By Shifting Index !] | TC = O(n x m) | SC =  O(n x m) dp[][]
+//Space
+//TC = O(n1 x n2)
+//SC = O(n2) dp[]
+
+class Solution {
+    public int minDistance(String word1, String word2) {
+        int n1 = word1.length();
+        int n2 = word2.length();
+        int prev[] = new int[n2+1];
+        //initialisation
+        for(int j=0; j<=n2; j++){
+            prev[j] = j;
+        }
+        // for(int i=0; i<=n1; i++){
+        //     dp[i][0] = i;
+        // }
+        // prev[0] = 0;
+        
+        for(int i=1; i<=n1; i++){
+            int cur[] = new int[n2+1];
+            cur[0] = i;
+
+            for(int j=1; j<=n2; j++){
+                
+                if(word1.charAt(i-1) == word2.charAt(j-1)){
+                    cur[j] = prev[j-1]; 
+                }
+                else{
+                    int insert = cur[j-1];
+                    int delete = prev[j]; 
+                    int replace = prev[j-1];             
+                    cur[j] = 1 + Math.min(insert , Math.min(delete , replace));            
+                }
+            }
+            prev = cur;
+        }
+        return prev[n2]; 
+    }
+}
+
