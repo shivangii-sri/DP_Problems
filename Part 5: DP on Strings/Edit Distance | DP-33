@@ -28,3 +28,39 @@ class Solution {
         }
     }
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+#2. Memoization | [By Shifting Index !] | TC = O(n x m) | SC = O(n + m) stack space + O(n x m) dp[][]
+
+//Memo - by shifting index !
+//TC = O(n x m)
+//SC = O(n + m) stack space + O(n x m) dp[][]
+
+class Solution {
+    public int minDistance(String word1, String word2) {
+        int n1 = word1.length();
+        int n2 = word2.length();
+        int dp[][] = new int[n1+1][n2+1];
+        for(int[] x : dp){
+            Arrays.fill(x , -1);
+        }
+        return helper(n1, n2, word1, word2, dp);
+    }
+    
+    public int helper(int i, int j, String s, String t, int[][] dp){
+        //base
+        if(i == 0) return j;
+        if(j == 0) return i;
+        if(dp[i][j] != -1) return dp[i][j];
+        
+        if(s.charAt(i-1) == t.charAt(j-1)){
+            return dp[i][j] = helper(i-1, j-1, s, t, dp);
+        }
+        else{
+            int insert = helper(i, j-1, s, t, dp);
+            int delete = helper(i-1, j, s, t, dp);
+            int replace = helper(i-1, j-1, s, t, dp);            
+            return dp[i][j] = 1 + Math.min(insert , Math.min(delete , replace));            
+        }
+    }
+}
